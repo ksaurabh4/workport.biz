@@ -1,13 +1,14 @@
-var jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const config = require('../config/appconfig');
 
 exports.generateToken = (user) => {
 	const { user_id, user_email, user_is_admin } = user;
 	return jwt.sign(
 		{ user_id, user_email, user_is_admin },
-		process.env.JWT_SECRET || "somethingsecret",
+		config.auth.jwt_secret,
 		{
-			expiresIn: "30d",
-		}
+			expiresIn: config.auth.jwt_expiresin,
+		},
 	);
 };
 

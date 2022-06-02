@@ -6,6 +6,19 @@ const Logger = require('../utils/logger');
 
 const logger = new Logger();
 const requestHandler = new RequestHandler(logger);
+
+
+function generateToken(user) {
+	const { user_id, user_email, user_is_admin } = user;
+	return jwt.sign(
+		{ user_id, user_email, user_is_admin },
+		config.auth.jwt_secret,
+		{
+			expiresIn: config.auth.jwt_expiresin,
+		},
+	);
+};
+
 function getTokenFromHeader(req) {
 	if ((req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token')
 		|| (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')) {
@@ -46,4 +59,4 @@ function verifyToken(req, res, next) {
 }
 
 
-module.exports = { getJwtToken: getTokenFromHeader, isAuthunticated: verifyToken };
+module.exports = { getJwtToken: getTokenFromHeader, isAuthunticated: verifyToken, generateToken };
