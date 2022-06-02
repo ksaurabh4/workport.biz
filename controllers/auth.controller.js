@@ -82,7 +82,7 @@ exports.login = expressAsyncHandler(async (req, res) => {
 				userEmail,
 				isAdmin,
 				userRole,
-				token: generateToken(user[0]),
+				token: generateToken({ userId, userEmail, isAdmin }),
 			});
 		}
 		return res.status(401).send({ message: 'Invalid Email or Password' });

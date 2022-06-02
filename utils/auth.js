@@ -9,9 +9,9 @@ const requestHandler = new RequestHandler(logger);
 
 
 function generateToken(user) {
-	const { user_id, user_email, user_is_admin } = user;
+	const { userId, userEmail, isAdmin } = user;
 	return jwt.sign(
-		{ user_id, user_email, user_is_admin },
+		{ userId, userEmail, isAdmin },
 		config.auth.jwt_secret,
 		{
 			expiresIn: config.auth.jwt_expiresin,
