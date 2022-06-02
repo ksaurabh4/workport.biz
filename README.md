@@ -1,11 +1,4 @@
-# Node Express MySQL Project   ![Version][version-image]
-
-![Linux Build][linuxbuild-image]
-![Windows Build][windowsbuild-image]
-![NSP Status][nspstatus-image]
-![Test Coverage][coverage-image]
-![Dependency Status][dependency-image]
-![devDependencies Status][devdependency-image]
+# Node Express MySQL Project (workport.biz)!
 
 The quickest way to get start with Node.Js, Express & MySQL, just clone the project:
 
