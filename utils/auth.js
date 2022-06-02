@@ -9,15 +9,27 @@ const requestHandler = new RequestHandler(logger);
 
 
 function generateToken(user) {
-	const { userId, userEmail, isAdmin } = user;
+	const {
+		userId, userEmail, isAdmin, companyId,
+	} = user;
 	return jwt.sign(
-		{ userId, userEmail, isAdmin },
+		{
+			userId, userEmail, isAdmin, companyId,
+		},
 		config.auth.jwt_secret,
 		{
 			expiresIn: config.auth.jwt_expiresin,
 		},
 	);
-};
+}
+
+function isUserCompanyAdmin(req, res, next) {
+	if (req.user && req.user.isAdmin && req.user.companyId === req.body.companyId) {
+		next();
+	} else {
+		res.status(401).send({ message: 'Invalid Admin Token' });
+	}
+}
 
 function getTokenFromHeader(req) {
 	if ((req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token')
@@ -50,7 +62,7 @@ function verifyToken(req, res, next) {
 			if (err) {
 				requestHandler.throwError(401, 'Unauthorized', 'please provide a valid token ,your token might be expired')();
 			}
-			req.decoded = decoded;
+			req.user = decoded;
 			next();
 		});
 	} catch (err) {
@@ -59,4 +71,6 @@ function verifyToken(req, res, next) {
 }
 
 
-module.exports = { getJwtToken: getTokenFromHeader, isAuthunticated: verifyToken, generateToken };
+module.exports = {
+	getJwtToken: getTokenFromHeader, isAuthunticated: verifyToken, generateToken, isUserCompanyAdmin,
+};

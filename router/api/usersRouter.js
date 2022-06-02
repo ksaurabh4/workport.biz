@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const UsersController = require('../../controllers/users.controller');
+const { isUserCompanyAdmin } = require('../../utils/auth');
+const auth = require('../../utils/auth');
 /**
    * @swagger
    * definitions:
@@ -86,6 +88,24 @@ const UsersController = require('../../controllers/users.controller');
  *           $ref: '#/definitions/users'
  */
 // router.get('/profile', auth.isAuthunticated, UsersController.getProfile);
+
+/**
+ * @swagger
+ * /users/create:
+ *   get:
+ *     tags:
+ *       - users
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: return the user profile
+ *         schema:
+ *           $ref: '#/definitions/users'
+ */
+router.post('/create', auth.isAuthunticated, isUserCompanyAdmin, UsersController.createUser);
 
 
 module.exports = router;

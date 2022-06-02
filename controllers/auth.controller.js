@@ -76,13 +76,16 @@ exports.login = expressAsyncHandler(async (req, res) => {
 		if (bcrypt.compareSync(pswd, user[0].user_pswd)) {
 			const {
 				user_id: userId, user_email: userEmail, user_is_admin: isAdmin, user_role: userRole,
+				user_comp_id: companyId,
 			} = user[0];
 			return res.send({
 				userId,
 				userEmail,
-				isAdmin,
+				isAdmin: isAdmin === 1,
 				userRole,
-				token: generateToken({ userId, userEmail, isAdmin }),
+				token: generateToken({
+					userId, userEmail, isAdmin, companyId,
+				}),
 			});
 		}
 		return res.status(401).send({ message: 'Invalid Email or Password' });
