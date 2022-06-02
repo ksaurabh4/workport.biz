@@ -48,3 +48,43 @@ exports.signUp = expressAsyncHandler(async (req, res) => {
 		return res.status(500).send({ message: err.message });
 	}
 });
+
+exports.login = expressAsyncHandler(async (req, res) => {
+	const { userEmail, userPswd } = req.body;
+	try {
+		const schema = Joi.object({
+			userEmail: Joi.string().email().required(),
+			userPswd: Joi.string().required(),
+		});
+		const { error } = schema.validate({
+			userEmail,
+			userPswd,
+		});
+
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+
+		const fetchUserByEmailQuery = `SELECT * FROM users where user_email='${userEmail}';`;
+		const user = await returnPromise(fetchUserByEmailQuery);
+		if (!user[0]) {
+			return requestHandler.throwError(400, 'bad request', 'your email is not registered with us')();
+		}
+
+		if (bcrypt.compareSync(userPswd, user[0].user_pswd)) {
+			const {
+				user_id, user_email, user_is_admin, user_role,
+			} = user[0];
+			return res.send({
+				user_id,
+				user_email,
+				user_is_admin,
+				user_role,
+				token: generateToken(user[0]),
+			});
+		}
+		return res.status(401).send({ message: 'Invalid Email or Password' });
+	} catch (error) {
+		return res.status(500).send({ message: error.message });
+	}
+});

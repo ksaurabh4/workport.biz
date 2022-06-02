@@ -87,7 +87,7 @@ router.post('/signUp', AuthController.signUp);
   *       200:
   *         description: user logged in succesfully
   */
-// router.post('/login', AuthController.login);
+router.post('/login', AuthController.login);
 /**
   * @swagger
   * /refreshToken:
