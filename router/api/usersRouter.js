@@ -44,7 +44,7 @@ const auth = require('../../utils/auth');
  *         schema:
  *           $ref: '#/definitions/users'
  */
-// router.get('/:id([0-9])', auth.isAuthunticated, UsersController.getUserById);
+router.get('/:id', auth.isAuthunticated, UsersController.getUserById);
 
 /**
  * @swagger
