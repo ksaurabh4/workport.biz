@@ -19,7 +19,7 @@ module.exports = {
 		logging: true,
 	},
 	winiston: {
-		logpath: '/workport.biz/logs/',
+		logpath: '/log/',
 	},
 	auth: {
 		jwt_secret: process.env.JWT_SECRET,
