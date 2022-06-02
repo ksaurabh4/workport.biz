@@ -1,0 +1,2 @@
+2022-06-01 23:35:16 info: a request has been made with the following uuid [425b25e3-66aa-4e04-85ad-c2a418b204b1] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-06-01 23:37:04 info: stopping the server

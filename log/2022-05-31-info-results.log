@@ -1,0 +1,53 @@
+2022-05-31 10:53:47 info: a request has been made with the following uuid [ed2120af-933c-46ea-85d8-75922e3d3473] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 10:58:03 info: stopping the server
+2022-05-31 10:58:13 info: a request has been made with the following uuid [dd41acd5-f755-474f-955f-817c2c5bc1a8] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 10:58:23 info: stopping the server
+2022-05-31 10:58:39 info: a request has been made with the following uuid [70dc1d04-fdfb-46c9-a024-183030a204ee] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 11:02:32 info: stopping the server
+2022-05-31 11:02:39 info: a request has been made with the following uuid [771bd127-dfc1-4dc6-8472-270abacb56f6] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 11:04:14 info: stopping the server
+2022-05-31 11:04:35 info: a request has been made with the following uuid [3e2644da-c964-42e8-a817-33c6139db34c] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 11:05:13 info: stopping the server
+2022-05-31 11:05:31 info: a request has been made with the following uuid [39df99ed-3be3-4652-b531-82617ce997a6] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 11:05:53 info: stopping the server
+2022-05-31 11:06:00 info: a request has been made with the following uuid [8bf50d36-3b4b-49e6-9338-37b18ea1b377] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","userCompanyName":"new company","isAdmin":false}
+2022-05-31 11:18:32 info: stopping the server
+2022-05-31 11:22:14 info: a request has been made with the following uuid [a6cf4997-d730-4059-8352-9f4620f70514] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:23:16 info: stopping the server
+2022-05-31 11:23:25 info: a request has been made with the following uuid [735e4d77-34b6-455b-9665-d3232c71d0bb] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:23:38 info: stopping the server
+2022-05-31 11:24:00 info: a request has been made with the following uuid [1781b8f4-ef08-4ebb-a995-df0a0405e61f] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:25:55 info: a request has been made with the following uuid [32b1762c-7e4d-4e91-a575-636f2f664409] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:26:08 info: stopping the server
+2022-05-31 11:26:16 info: a request has been made with the following uuid [dc574c02-cb64-4e44-a014-86caaff1ab34] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:28:40 info: a request has been made with the following uuid [87380c02-2574-4295-97e7-785a79812730] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:31:19 info: a request has been made with the following uuid [9586f3f4-10ac-4d5a-af55-b7bdd3e023d2] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:35:19 info: a request has been made with the following uuid [6c8f3ea2-69ec-4650-9bc4-d204d6890a3a] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur1@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:36:17 info: a request has been made with the following uuid [d3a0a280-0313-4bdc-a31b-30672ccbf8c2] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:37:06 info: stopping the server
+2022-05-31 11:37:29 info: a request has been made with the following uuid [66283317-b47c-4cf7-b8c1-75f42fafefd6] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:37:47 info: a request has been made with the following uuid [6160045d-3d16-4494-a07d-bf6bd7bb2a8e] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:38:15 info: a request has been made with the following uuid [1d49a5db-83da-40e5-b237-936eac2b146b] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1","companyName":"new company","isAdmin":false}
+2022-05-31 11:39:31 info: stopping the server
+2022-05-31 11:39:42 info: a request has been made with the following uuid [f9443c99-d685-4715-918d-95a5c5c41d34] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:39:50 info: a request has been made with the following uuid [afc4a3c5-db13-458a-9484-75e9fee440a8] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:42:59 info: stopping the server
+2022-05-31 11:43:13 info: a request has been made with the following uuid [435a5730-1b8e-444b-99e0-64c606d7e1cf] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:53:50 info: a request has been made with the following uuid [414501ab-bed7-4382-970c-a3c519e2aad6] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:55:02 info: stopping the server
+2022-05-31 11:55:22 info: a request has been made with the following uuid [5d1b138b-f6c1-4c6c-ba9b-e561ede2dadc] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:55:44 info: a request has been made with the following uuid [737106f4-1574-406b-b87a-6f72618e43be] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:56:53 info: stopping the server
+2022-05-31 11:57:01 info: a request has been made with the following uuid [eccfed30-1b15-4d55-94d0-fc8dce57008f] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company","isAdmin":false}
+2022-05-31 11:57:56 info: a request has been made with the following uuid [192dd3b8-bc25-40bd-a73f-4cb512ac3d30] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 11:59:11 info: a request has been made with the following uuid [20e334e3-4faa-4713-998e-86257d9cfc6d] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 11:59:45 info: a request has been made with the following uuid [9f82c421-851b-4127-9e14-d649fdeae833] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:01:19 info: stopping the server
+2022-05-31 12:01:36 info: a request has been made with the following uuid [0fd2ffd4-4458-4bf2-a4b0-c96f43fa9bd7] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:04:13 info: a request has been made with the following uuid [f07db298-7a6f-4835-bd94-5058cdc35d9c] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:04:49 info: a request has been made with the following uuid [f55ab110-06e0-4414-95b5-fac578802110] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:05:23 info: a request has been made with the following uuid [9b99d172-420b-4a5a-866e-871db7bdc3cb] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:06:36 info: stopping the server
+2022-05-31 12:06:55 info: a request has been made with the following uuid [f310733e-11c3-4a17-bc65-7b6690fc1b10] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:07:25 info: a request has been made with the following uuid [c5bf06c8-1392-41ab-9d9d-b4f3220cd049] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}
+2022-05-31 12:07:40 info: a request has been made with the following uuid [87ab6c8c-76ef-43fb-91b5-15b5d488d31e] /api/v1/signUp PostmanRuntime/7.29.0 {"userEmail":"ksaur2sdsd@gmail.com","userPswd":"test1234","companyName":"new company2","isAdmin":false}

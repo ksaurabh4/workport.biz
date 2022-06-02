@@ -1,0 +1,3 @@
+2022-05-31 11:28:40 warn: error in validating request : "userEmail" must be a valid email
+2022-05-31 11:37:47 warn: error in validating request : "userEmail" must be a valid email
+2022-05-31 11:38:15 warn: error in validating request : "userPswd" length must be at least 6 characters long
