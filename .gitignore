@@ -6,6 +6,9 @@
 /tmp
 /out-tsc
 
+#logs
+/log
+
 # dependencies
 /node_modules
 
@@ -41,3 +44,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#env
+.env
