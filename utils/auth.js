@@ -35,7 +35,7 @@ function verifyToken(req, res, next) {
 		// verifies secret and checks exp
 		jwt.verify(token, config.auth.jwt_secret, (err, decoded) => {
 			if (err) {
-				requestHandler.throwError(401, 'Unauthorized', 'please provide a vaid token ,your token might be expired')();
+				requestHandler.throwError(401, 'Unauthorized', 'please provide a valid token ,your token might be expired')();
 			}
 			req.decoded = decoded;
 			next();

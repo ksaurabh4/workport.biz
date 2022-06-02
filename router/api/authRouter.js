@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const AuthController = require('../../controllers/auth.controller');
-
+const auth = require('../../utils/auth');
 /**
    * @swagger
    * definitions:
@@ -149,6 +149,6 @@ router.post('/login', AuthController.login);
  *         schema:
  *           $ref: '#/definitions/users'
  */
-// router.post('/logout', auth.isAuthunticated, AuthController.logOut);
+router.post('/logout', auth.isAuthunticated, AuthController.logOut);
 
 module.exports = router;

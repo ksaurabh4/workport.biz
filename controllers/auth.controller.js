@@ -88,3 +88,5 @@ exports.login = expressAsyncHandler(async (req, res) => {
 		return res.status(500).send({ message: error.message });
 	}
 });
+
+exports.logOut = expressAsyncHandler((req, res) => res.send({ message: 'user logged out successfully' }));
