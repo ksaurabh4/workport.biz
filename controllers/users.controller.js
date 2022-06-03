@@ -60,8 +60,8 @@ exports.getUserById = expressAsyncHandler(async (req, res) => {
 		if (error) {
 			requestHandler.validateJoi(error, 400, 'bad Request', 'invalid User Id');
 		}
-		const getUserByEmailAndCompanyIdQuery = `SELECT * from users WHERE user_id=${userId} and user_comp_id=${companyId}`;
-		const user = await returnPromise(getUserByEmailAndCompanyIdQuery);
+		const getUserByIdAndCompanyIdQuery = `SELECT * from users WHERE user_id=${userId} and user_comp_id=${companyId}`;
+		const user = await returnPromise(getUserByIdAndCompanyIdQuery);
 		if (user[0] && user[0].user_id) {
 			return res.send({
 				userId: user[0].user_id,

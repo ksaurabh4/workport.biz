@@ -44,6 +44,10 @@ exports.signUp = expressAsyncHandler(async (req, res) => {
       VALUES ('${userEmail}','${bcrypt.hashSync(userPswd, 8)}',${company.insertId},'${userRole}',${isAdmin});`;
 		const user = await returnPromise(addUserQuery);
 		result.userId = user.insertId;
+		const addEmployeeQuery = `INSERT INTO employees (emp_email,emp_comp_id,emp_is_manager,emp_user_id) 
+		VALUE ('${userEmail}',${company.insertId},${true},${user.insertId})`;
+		const employee = await returnPromise(addEmployeeQuery);
+		result.empId = employee.insertId;
 		const token = generateToken(result);
 		return res.send({ ...result, token });
 	} catch (err) {
