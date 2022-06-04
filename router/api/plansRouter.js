@@ -19,7 +19,7 @@ const auth = require('../../utils/auth');
 
 /**
  * @swagger
- * /plans/{EmployeeId}:
+ * /plans/{PlanId}:
  *   get:
  *     tags:
  *       - plans
@@ -29,7 +29,7 @@ const auth = require('../../utils/auth');
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: EmployeeId
+ *      - name: PlanId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -41,11 +41,11 @@ const auth = require('../../utils/auth');
  *         schema:
  *           $ref: '#/definitions/plans'
  */
-// router.get('/:id', auth.isAuthunticated, PlansController.getEmployeeById);
+// router.get('/:id', auth.isAuthunticated, PlansController.getPlanById);
 
 /**
  * @swagger
- * /plans/{employeeId}:
+ * /plans/{plansId}:
  *   delete:
  *     tags:
  *       - plans
@@ -54,7 +54,7 @@ const auth = require('../../utils/auth');
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: EmployeeId
+ *      - name: PlanId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -70,7 +70,7 @@ const auth = require('../../utils/auth');
 
 /**
  * @swagger
- * /plans/{employeeId}:
+ * /plans/{plansId}:
  *   update:
  *     tags:
  *       - plans
@@ -79,7 +79,7 @@ const auth = require('../../utils/auth');
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: EmployeeId
+ *      - name: PlanId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
