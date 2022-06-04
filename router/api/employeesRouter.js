@@ -70,6 +70,31 @@ router.get('/:id', auth.isAuthunticated, EmployeesController.getEmployeeById);
 
 /**
  * @swagger
+ * /employees/{employeeId}:
+ *   update:
+ *     tags:
+ *       - employees
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      - name: EmployeeId
+ *        description: numeric id of the user to get
+ *        in: path
+ *        required: true
+ *        type: integer
+ *        minimum: 1
+ *     responses:
+ *       200:
+ *         description: update user with id
+ *         schema:
+ *           $ref: '#/definitions/employees'
+ */
+router.put('/:id', auth.isAuthunticated, EmployeesController.updateById);
+
+/**
+ * @swagger
  * /employees/profile:
  *   get:
  *     tags:
