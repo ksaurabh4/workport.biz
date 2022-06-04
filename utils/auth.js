@@ -10,11 +10,11 @@ const requestHandler = new RequestHandler(logger);
 
 function generateToken(user) {
 	const {
-		userId, userEmail, isAdmin, companyId,
+		userId, userEmail, isAdmin, userRole, companyId,
 	} = user;
 	return jwt.sign(
 		{
-			userId, userEmail, isAdmin, companyId,
+			userId, userEmail, isAdmin, userRole, companyId,
 		},
 		config.auth.jwt_secret,
 		{
@@ -28,6 +28,14 @@ function isUserCompanyAdmin(req, res, next) {
 		next();
 	} else {
 		res.status(401).send({ message: 'Invalid Admin Token' });
+	}
+}
+
+function isUserSuperAdmin(req, res, next) {
+	if (req.user && req.user.userRole === 'superadmin') {
+		next();
+	} else {
+		res.status(401).send({ message: 'Invalid Super Admin Token' });
 	}
 }
 
@@ -70,7 +78,10 @@ function verifyToken(req, res, next) {
 	}
 }
 
-
 module.exports = {
-	getJwtToken: getTokenFromHeader, isAuthunticated: verifyToken, generateToken, isUserCompanyAdmin,
+	getJwtToken: getTokenFromHeader,
+	isAuthunticated: verifyToken,
+	generateToken,
+	isUserCompanyAdmin,
+	isUserSuperAdmin,
 };
