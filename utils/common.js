@@ -31,13 +31,12 @@ exports.returnPromise = (query, values) => new Promise((resolve, reject) => {
 exports.updateQueryBuilder = (tableName, searchTerm, searchValue, reqBody) => {
 	let query = `UPDATE ${tableName} SET `;
 	const values = [];
-	// eslint-disable-next-line no-restricted-syntax
-	for (const key in reqBody) {
+	Object.keys(reqBody).forEach((key) => {
 		if (reqBody[key] !== undefined && reqBody[key] !== null) {
 			query += `${table[tableName][key]}=?, `;
 			values.push(reqBody[key]);
 		}
-	}
+	});
 	query = query.substr(0, query.length - 2);
 	query += ` WHERE ${searchTerm}=?`;
 	values.push(searchValue);
@@ -47,10 +46,33 @@ exports.updateQueryBuilder = (tableName, searchTerm, searchValue, reqBody) => {
 exports.addQueryBuilder = (tableName, reqBody) => {
 	const query = `INSERT INTO ${tableName} SET ?`;
 	const dataObj = {};
-	for (key in reqBody) {
+	Object.keys(reqBody).forEach((key) => {
 		if (reqBody[key] !== undefined && reqBody[key] !== null) {
 			dataObj[table[tableName][key]] = reqBody[key];
 		}
-	}
+	});
 	return { query, dataObj };
+};
+
+function objectFlip(obj) {
+	const ret = {};
+	Object.keys(obj).forEach((key) => {
+		ret[obj[key]] = key;
+	});
+	return ret;
 }
+
+exports.makeResponseData = (tableName, data) => {
+	const dataObj = {};
+	const reverseObj = objectFlip(table[tableName]);
+	Object.keys(data).forEach((key) => {
+		if (key.includes('_is_') && data[key] === 1) {
+			dataObj[reverseObj[key]] = true;
+		} else if (key.includes('_is_') && data[key] === 0) {
+			dataObj[reverseObj[key]] = false;
+		} else {
+			dataObj[reverseObj[key]] = data[key];
+		}
+	});
+	return dataObj;
+};

@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const PlansController = require('../../controllers/plans.controller');
-const { isUserSuperAdmin } = require('../../utils/auth');
+const SubscriptionsController = require('../../controllers/subscriptions.controller');
+const { isUserCompanyAdminOrSuperAdmin } = require('../../utils/auth');
 const auth = require('../../utils/auth');
 /**
    * @swagger
    * definitions:
-   *   plans:
+   *   subscriptions:
    *     required:
    *       - id
    *       - email
@@ -19,17 +19,17 @@ const auth = require('../../utils/auth');
 
 /**
  * @swagger
- * /plans/{PlanId}:
+ * /subscriptions/{subsId}:
  *   get:
  *     tags:
- *       - plans
+ *       - subscriptions
  *     description: Return a specific user
  *     security:
  *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: PlanId
+ *      - name: SubsId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -39,22 +39,22 @@ const auth = require('../../utils/auth');
  *       200:
  *         description: a single user object
  *         schema:
- *           $ref: '#/definitions/plans'
+ *           $ref: '#/definitions/subscriptions'
  */
-// router.get('/:id', auth.isAuthunticated, PlansController.getPlanById);
+router.get('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, SubscriptionsController.getSubscriptionById);
 
 /**
  * @swagger
- * /plans/{plansId}:
+ * /subscriptions/{subsId}:
  *   delete:
  *     tags:
- *       - plans
+ *       - subscriptions
  *     security:
  *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: PlanId
+ *      - name: SubsId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -64,22 +64,22 @@ const auth = require('../../utils/auth');
  *       200:
  *         description: delete user with id
  *         schema:
- *           $ref: '#/definitions/plans'
+ *           $ref: '#/definitions/subscriptions'
  */
-// router.delete('/:id([0-9])', PlansController.deleteById);
+// router.delete('/:id([0-9])', SubscriptionsController.deleteById);
 
 /**
  * @swagger
- * /plans/{plansId}:
+ * /subscriptions/{subsId}:
  *   update:
  *     tags:
- *       - plans
+ *       - subscriptions
  *     security:
  *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: PlanId
+ *      - name: SubsId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -89,16 +89,16 @@ const auth = require('../../utils/auth');
  *       200:
  *         description: update user with id
  *         schema:
- *           $ref: '#/definitions/plans'
+ *           $ref: '#/definitions/subscriptions'
  */
-router.put('/:id', auth.isAuthunticated, isUserSuperAdmin, PlansController.updatePlanById);
+router.put('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, SubscriptionsController.updateSubscriptionById);
 
 /**
  * @swagger
- * /plans/profile:
+ * /subscriptions/profile:
  *   get:
  *     tags:
- *       - plans
+ *       - subscriptions
  *     security:
  *       - Bearer: []
  *     produces:
@@ -107,16 +107,16 @@ router.put('/:id', auth.isAuthunticated, isUserSuperAdmin, PlansController.updat
  *       200:
  *         description: return the user profile
  *         schema:
- *           $ref: '#/definitions/plans'
+ *           $ref: '#/definitions/subscriptions'
  */
-// router.get('/profile', auth.isAuthunticated, PlansController.getProfile);
+// router.get('/profile', auth.isAuthunticated, SubscriptionsController.getProfile);
 
 /**
  * @swagger
- * /plans/create:
+ * /subscriptions/create:
  *   get:
  *     tags:
- *       - plans
+ *       - subscriptions
  *     security:
  *       - Bearer: []
  *     produces:
@@ -125,9 +125,9 @@ router.put('/:id', auth.isAuthunticated, isUserSuperAdmin, PlansController.updat
  *       200:
  *         description: return the user profile
  *         schema:
- *           $ref: '#/definitions/plans'
+ *           $ref: '#/definitions/subscriptions'
  */
-router.post('/create', auth.isAuthunticated, isUserSuperAdmin, PlansController.createPlan);
+router.post('/create', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, SubscriptionsController.createSubscription);
 
 
 module.exports = router;

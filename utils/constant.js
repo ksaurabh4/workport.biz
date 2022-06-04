@@ -16,6 +16,7 @@ exports.table = {
 		companyId: 'emp_comp_id',
 		empPhone: 'emp_phone',
 		empCode: 'emp_code',
+		userId: 'emp_user_id',
 	},
 	users: {
 		userId: 'user_id',
@@ -31,5 +32,13 @@ exports.table = {
 		planDurationUnit: 'plan_duration_unit',
 		planPrice: 'plan_price',
 		planMaxEmployees: 'plan_max_employees',
+	},
+	subscriptions: {
+		subsId: 'subs_id',
+		subsStartDate: 'subs_start_date',
+		subsEndDate: 'subs_end_date',
+		subsIsActive: 'subs_is_active',
+		companyId: 'subs_comp_id',
+		planId: 'subs_plan_id',
 	},
 };

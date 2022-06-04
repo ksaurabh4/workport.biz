@@ -1,10 +1,8 @@
-const bcrypt = require('bcryptjs');
 const Joi = require('joi');
 const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const { returnPromise, updateQueryBuilder, addQueryBuilder } = require('../utils/common');
-const config = require('../config/appconfig');
 
 const logger = new Logger();
 const requestHandler = new RequestHandler(logger);
