@@ -18,9 +18,18 @@ exports.table = {
 		empCode: 'emp_code',
 	},
 	users: {
+		userId: 'user_id',
 		isAdmin: 'user_is_admin',
 		userRole: 'user_role',
 		userEmail: 'user_email',
 		userPswd: 'user_pswd',
+	},
+	plans: {
+		planId: 'plan_id',
+		planName: 'plan_name',
+		planDuration: 'plan_duration',
+		planDurationUnit: 'plan_duration_unit',
+		planPrice: 'plan_price',
+		planMaxEmployees: 'plan_max_employees',
 	},
 };

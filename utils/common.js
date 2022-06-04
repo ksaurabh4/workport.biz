@@ -43,3 +43,14 @@ exports.updateQueryBuilder = (tableName, searchTerm, searchValue, reqBody) => {
 	values.push(searchValue);
 	return { query, values };
 };
+
+exports.addQueryBuilder = (tableName, reqBody) => {
+	const query = `INSERT INTO ${tableName} SET ?`;
+	const dataObj = {};
+	for (key in reqBody) {
+		if (reqBody[key] !== undefined && reqBody[key] !== null) {
+			dataObj[table[tableName][key]] = reqBody[key];
+		}
+	}
+	return { query, dataObj };
+}
