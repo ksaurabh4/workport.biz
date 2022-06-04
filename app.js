@@ -54,6 +54,7 @@ app.use(require('express-status-monitor')({
 // compress all responses
 app.use(compression());
 
+const swagger = require('./utils/swagger');
 // middleware which blocks requests when server is too busy
 app.use((req, res, next) => {
 	if (toobusy()) {
@@ -131,6 +132,9 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
 	res.json({ message: 'Welcome to Workport API Service' });
 });
+
+// Swagger route
+app.use('/api/docs', swagger.router);
 
 // Linking routes
 app.use(require('./router'));
