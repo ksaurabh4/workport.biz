@@ -3,7 +3,7 @@ const Joi = require('joi');
 const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
-const { returnPromise } = require('../utils/common');
+const { returnPromise, updateQueryBuilder } = require('../utils/common');
 const config = require('../config/appconfig');
 
 const logger = new Logger();
@@ -11,7 +11,9 @@ const requestHandler = new RequestHandler(logger);
 
 exports.createEmployee = expressAsyncHandler(async (req, res) => {
 	const {
-		companyId, empCode, empName, empPhoneNum, empEmail, empAddress, empCity, empState, empCountry, empZip, empManagerId, empRole = 'user', empDept, empSubDept, empDesignation, isAdmin = false,
+		companyId, empCode, empName, empPhone, empEmail, empAddress, empCity, empState,
+		empCountry, empZip, empManagerId, isManager = false, empDept, empSubDept, empDesignation,
+		isAdmin = false,
 	} = req.body;
 	try {
 		const schema = Joi.object({
@@ -42,12 +44,12 @@ exports.createEmployee = expressAsyncHandler(async (req, res) => {
 			return requestHandler.throwError(400, 'bad request', 'employee with this email already existed')();
 		}
 		const addUserQuery = `INSERT INTO users (user_email,user_pswd,user_comp_id,user_role,user_is_admin) 
-      VALUES ('${empEmail}','${bcrypt.hashSync(config.auth.user_default_password, config.auth.saltRounds)}',${companyId},'${empRole}',${isAdmin});`;
+      VALUES ('${empEmail}','${bcrypt.hashSync(config.auth.user_default_password, config.auth.saltRounds)}',${companyId},'${isManager ? 'manager' : 'user'}',${isAdmin});`;
 		const user = await returnPromise(addUserQuery);
 		if (user.insertId) {
 			const addEmployeeQuery = `INSERT INTO employees
 	(emp_user_id, emp_email, emp_code, emp_name, emp_phone, emp_adress, emp_city, emp_state, emp_country, emp_zip, emp_dept, emp_sub_dept, emp_designation, emp_is_manager, emp_manager_id, emp_comp_id)
-	VALUES(${user.insertId}, '${empEmail}','${empCode}' ,'${empName}','${empPhoneNum}', '${empAddress}', '${empCity}', '${empState}', '${empCountry}', '${empZip}', '${empDept}', '${empSubDept}', '${empDesignation}', ${empRole !== 'user'}, ${empManagerId}, ${companyId});`;
+	VALUES(${user.insertId}, '${empEmail}','${empCode}' ,'${empName}','${empPhone}', '${empAddress}', '${empCity}', '${empState}', '${empCountry}', '${empZip}', '${empDept}', '${empSubDept}', '${empDesignation}', ${isManager}, ${empManagerId}, ${companyId});`;
 			await returnPromise(addEmployeeQuery);
 		}
 		return res.send({ message: 'Employee create successfully' });
@@ -75,7 +77,7 @@ exports.getEmployeeById = expressAsyncHandler(async (req, res) => {
 			return res.send({
 				empCode: employee[0].emp_code,
 				empName: employee[0].emp_name,
-				empPhoneNum: employee[0].emp_phone,
+				empPhone: employee[0].emp_phone,
 				empEmail: employee[0].emp_email,
 				empAddress: employee[0].emp_address,
 				empCity: employee[0].emp_city,
@@ -94,5 +96,48 @@ exports.getEmployeeById = expressAsyncHandler(async (req, res) => {
 		return res.status(404).send({ message: 'no employee found with provided Id' });
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
+	}
+});
+
+exports.updateById = expressAsyncHandler(async (req, res) => {
+	const empId = req.params.id;
+	const { companyId } = req.user;
+	try {
+		const schema = Joi.object({
+			empId: Joi.number().min(1),
+		});
+		const { error } = schema.validate({
+			empId,
+		});
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', 'invalid Employee Id');
+		}
+
+		const getEmployeeByIdAndCompanyIdQuery = `SELECT * from employees WHERE emp_id=${empId} and emp_comp_id=${companyId};`;
+		const employee = await returnPromise(getEmployeeByIdAndCompanyIdQuery);
+		if (!employee[0]) {
+			return requestHandler.validateJoi(error, 404, 'bad Request', 'No employee found with this id');
+		}
+		if ('isAdmin' in req.body || 'isManager' in req.body) {
+			const formatIsManager = () => {
+				if (req.body.isManager === undefined) {
+					return null;
+				} if (req.body.isManager === true) {
+					return 'manager';
+				}
+				return 'user';
+			};
+			const { query, values } = updateQueryBuilder('users', 'user_email', employee[0].emp_email,
+				{ isAdmin: req.body.isAdmin, userRole: formatIsManager() });
+			await returnPromise(query, values);
+			delete req.body.isAdmin;
+		}
+		if (Object.keys(req.body).length > 0) {
+			const { query, values } = updateQueryBuilder('employees', 'emp_id', empId, req.body);
+			await returnPromise(query, values);
+		}
+		return res.send({ message: 'Employee data updated successfully' });
+	} catch (err) {
+		return res.send({ message: err.message });
 	}
 });
