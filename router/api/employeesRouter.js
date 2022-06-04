@@ -1,20 +1,17 @@
 const router = require('express').Router();
-const UsersController = require('../../controllers/users.controller');
+const EmployeesController = require('../../controllers/employees.controller');
 const { isUserCompanyAdmin } = require('../../utils/auth');
 const auth = require('../../utils/auth');
 /**
    * @swagger
    * definitions:
-   *   users:
+   *   employees:
    *     required:
    *       - id
-   *       - username
    *       - email
    *     properties:
    *       id:
    *         type: integer
-   *       username:
-   *         type: string
    *       email:
    *         type: string
    */
@@ -22,17 +19,17 @@ const auth = require('../../utils/auth');
 
 /**
  * @swagger
- * /users/{userId}:
+ * /employees/{EmployeeId}:
  *   get:
  *     tags:
- *       - users
+ *       - employees
  *     description: Return a specific user
  *     security:
  *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: userId
+ *      - name: EmployeeId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -42,22 +39,22 @@ const auth = require('../../utils/auth');
  *       200:
  *         description: a single user object
  *         schema:
- *           $ref: '#/definitions/users'
+ *           $ref: '#/definitions/employees'
  */
-router.get('/:id', auth.isAuthunticated, UsersController.getUserById);
+router.get('/:id', auth.isAuthunticated, EmployeesController.getEmployeeById);
 
 /**
  * @swagger
- * /users/{userId}:
+ * /employees/{employeeId}:
  *   delete:
  *     tags:
- *       - users
+ *       - employees
  *     security:
  *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: userId
+ *      - name: EmployeeId
  *        description: numeric id of the user to get
  *        in: path
  *        required: true
@@ -67,16 +64,16 @@ router.get('/:id', auth.isAuthunticated, UsersController.getUserById);
  *       200:
  *         description: delete user with id
  *         schema:
- *           $ref: '#/definitions/users'
+ *           $ref: '#/definitions/employees'
  */
-// router.delete('/:id([0-9])', UsersController.deleteById);
+// router.delete('/:id([0-9])', EmployeesController.deleteById);
 
 /**
  * @swagger
- * /users/profile:
+ * /employees/profile:
  *   get:
  *     tags:
- *       - users
+ *       - employees
  *     security:
  *       - Bearer: []
  *     produces:
@@ -85,16 +82,16 @@ router.get('/:id', auth.isAuthunticated, UsersController.getUserById);
  *       200:
  *         description: return the user profile
  *         schema:
- *           $ref: '#/definitions/users'
+ *           $ref: '#/definitions/employees'
  */
-// router.get('/profile', auth.isAuthunticated, UsersController.getProfile);
+// router.get('/profile', auth.isAuthunticated, EmployeesController.getProfile);
 
 /**
  * @swagger
- * /users/create:
+ * /employees/create:
  *   get:
  *     tags:
- *       - users
+ *       - employees
  *     security:
  *       - Bearer: []
  *     produces:
@@ -103,9 +100,9 @@ router.get('/:id', auth.isAuthunticated, UsersController.getUserById);
  *       200:
  *         description: return the user profile
  *         schema:
- *           $ref: '#/definitions/users'
+ *           $ref: '#/definitions/employees'
  */
-router.post('/create', auth.isAuthunticated, isUserCompanyAdmin, UsersController.createUser);
+router.post('/create', auth.isAuthunticated, isUserCompanyAdmin, EmployeesController.createEmployee);
 
 
 module.exports = router;

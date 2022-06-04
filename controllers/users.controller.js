@@ -46,3 +46,33 @@ exports.createUser = expressAsyncHandler(async (req, res) => {
 		return res.status(500).send({ message: err.message });
 	}
 });
+
+exports.getUserById = expressAsyncHandler(async (req, res) => {
+	const userId = req.params.id;
+	const { companyId } = req.user;
+	try {
+		const schema = Joi.object({
+			userId: Joi.number().min(1),
+		});
+		const { error } = schema.validate({
+			userId,
+		});
+		if (error) {
+			requestHandler.validateJoi(error, 400, 'bad Request', 'invalid User Id');
+		}
+		const getUserByIdAndCompanyIdQuery = `SELECT * from users WHERE user_id=${userId} and user_comp_id=${companyId}`;
+		const user = await returnPromise(getUserByIdAndCompanyIdQuery);
+		if (user[0] && user[0].user_id) {
+			return res.send({
+				userId: user[0].user_id,
+				userEmail: user[0].user_email,
+				isAdmin: user[0].user_is_admin === 1,
+				userRole: user[0].user_role,
+				companyId: user[0].user_comp_id,
+			});
+		}
+		return res.status(404).send({ message: 'no user found with provided userId' });
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
+	}
+});

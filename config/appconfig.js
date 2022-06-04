@@ -22,9 +22,10 @@ module.exports = {
 		logpath: '/log/',
 	},
 	auth: {
+		user_default_password: process.env.USER_DEFAULT_PASS,
 		jwt_secret: process.env.JWT_SECRET || 'somethingsecret',
 		jwt_expiresin: process.env.JWT_EXPIRES_IN || '1d',
-		saltRounds: process.env.SALT_ROUND || 10,
+		saltRounds: process.env.SALT_ROUND || 8,
 		refresh_token_secret: process.env.REFRESH_TOKEN_SECRET || 'VmVyeVBvd2VyZnVsbFNlY3JldA==',
 		refresh_token_expiresin: process.env.REFRESH_TOKEN_EXPIRES_IN || '2d', // 2 days
 	},
