@@ -53,4 +53,19 @@ exports.table = {
 		companyId: 'subs_comp_id',
 		planId: 'subs_plan_id',
 	},
+	announcements: {
+		announcementId: 'announcement_id',
+		announcementIsActive: 'announcement_is_active',
+		companyId: 'announcement_comp_id',
+		announcementContent: 'announcement_content',
+		announcementSubject: 'announcement_subject',
+		announcementFor: 'announcement_for',
+	},
+	todos: {
+		todoId: 'todo_id',
+		todoContent: 'todo_content',
+		todoDueDateTime: 'todo_due_date_time',
+		todoStatus: 'todo_status',
+		empId: 'todo_emp_id',
+	},
 };
