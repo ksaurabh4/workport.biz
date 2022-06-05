@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const TodosController = require('../../controllers/todos.controller');
-const { isUserCompanyAdminOrSuperAdmin } = require('../../utils/auth');
+const { isUserHimself } = require('../../utils/auth');
 const auth = require('../../utils/auth');
 /**
    * @swagger
@@ -41,7 +41,7 @@ const auth = require('../../utils/auth');
  *         schema:
  *           $ref: '#/definitions/todos'
  */
-router.get('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, TodosController.getTodoById);
+router.get('/:id', auth.isAuthunticated, TodosController.getTodoById);
 
 /**
  * @swagger
@@ -91,7 +91,7 @@ router.get('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, TodosCo
  *         schema:
  *           $ref: '#/definitions/todos'
  */
-router.put('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, TodosController.updateTodoById);
+router.put('/:id', auth.isAuthunticated, TodosController.updateTodoById);
 
 /**
  * @swagger
@@ -127,7 +127,7 @@ router.put('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, TodosCo
  *         schema:
  *           $ref: '#/definitions/todos'
  */
-router.post('/create', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, TodosController.createTodo);
+router.post('/create', auth.isAuthunticated, TodosController.createTodo);
 
 
 module.exports = router;

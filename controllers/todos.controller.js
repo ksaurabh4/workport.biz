@@ -9,111 +9,94 @@ const {
 const logger = new Logger();
 const requestHandler = new RequestHandler(logger);
 
-exports.createSubscription = expressAsyncHandler(async (req, res) => {
+exports.createTodo = expressAsyncHandler(async (req, res) => {
+	const { userId } = req.user;
 	const {
-		subsStartDate,
-		subsEndDate,
-		subsIsActive,
-		companyId,
-		planId,
+		todoContent,
+		todoDueDateTime,
+		todoStatus = 'pending',
 	} = req.body;
 	try {
 		const schema = Joi.object({
-			subsStartDate: Joi.date().iso().required(),
-			subsEndDate: Joi.date().iso().required(),
-			subsIsActive: Joi.boolean().required(),
-			companyId: Joi.number().min(1).required(),
-			planId: Joi.number().min(1).required(),
+			todoContent: Joi.string().required(),
+			todoDueDateTime: Joi.date().iso().greater('now').required(),
+			todoStatus: Joi.string().required().valid('pending', 'completed'),
 		});
 		const { error } = schema.validate({
-			subsStartDate,
-			subsEndDate,
-			subsIsActive,
-			companyId,
-			planId,
+			todoContent,
+			todoDueDateTime,
+			todoStatus,
 		});
 
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const fetchSubsByCompanyId = `SELECT * FROM subscriptions where subs_comp_id='${companyId}';`;
-		const existingSubs = await returnPromise(fetchSubsByCompanyId);
-		if (existingSubs[0] && existingSubs[0].subs_id) {
-			return requestHandler.throwError(400, 'bad request', 'Subscription with this clientId already existed')();
-		}
-		const { query, dataObj } = addQueryBuilder('subscriptions', req.body);
+		const { query, dataObj } = addQueryBuilder('todos', { ...req.body, userId });
 		await returnPromise(query, dataObj);
-		return res.send({ message: 'Subscription added successfully' });
+		return res.send({ message: 'Todo added successfully' });
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
 	}
 });
 
-exports.updateSubscriptionById = expressAsyncHandler(async (req, res) => {
-	const subsId = req.params.id;
+exports.updateTodoById = expressAsyncHandler(async (req, res) => {
+	const todoId = req.params.id;
+	const { userId } = req.user;
 	const {
-		subsStartDate,
-		subsEndDate,
-		subsIsActive,
-		planId,
-		companyId,
+		todoContent,
+		todoDueDateTime,
+		todoStatus,
 	} = req.body;
 	try {
 		const schema = Joi.object({
-			subsStartDate: Joi.date().iso(),
-			subsEndDate: Joi.date().iso(),
-			subsIsActive: Joi.boolean(),
-			planId: Joi.number().min(1),
-			subsId: Joi.number().min(1),
-			companyId: Joi.number().min(1).required(),
+			todoId: Joi.number().min(1).required(),
+			todoContent: Joi.string(),
+			todoDueDateTime: Joi.date().iso().greater('now'),
+			todoStatus: Joi.string(),
 		});
 		const { error } = schema.validate({
-			subsStartDate,
-			subsEndDate,
-			subsIsActive,
-			planId,
-			companyId,
-			subsId,
+			todoId,
+			todoContent,
+			todoDueDateTime,
+			todoStatus,
 		});
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const getSubsBySubsIdQuery = `SELECT * from subscriptions WHERE subs_id=${subsId} and subs_comp_id=${companyId}`;
-		const subs = await returnPromise(getSubsBySubsIdQuery);
-		if (!subs[0]) {
-			return requestHandler.validateJoi(error, 404, 'bad Request', 'No subscription found');
+		const getTodoByTodoIdQuery = `SELECT * from todos WHERE todo_id=${todoId} and todo_user_id=${userId}`;
+		const todo = await returnPromise(getTodoByTodoIdQuery);
+		if (!todo[0]) {
+			return requestHandler.validateJoi(error, 404, 'bad Request', 'No todo found');
 		}
 		if (Object.keys(req.body).length > 0) {
-			const { query, values } = updateQueryBuilder('subscriptions', 'subs_id', subsId, req.body);
+			const { query, values } = updateQueryBuilder('todos', 'todo_id', todoId, req.body);
 			await returnPromise(query, values);
 		}
-		return res.send({ message: 'Subscription data updated successfully' });
+		return res.send({ message: 'Todo data updated successfully' });
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
 	}
 });
 
-exports.getSubscriptionById = expressAsyncHandler(async (req, res) => {
-	const subsId = req.params.id;
-	const { companyId } = req.body;
+exports.getTodoById = expressAsyncHandler(async (req, res) => {
+	const todoId = req.params.id;
+	const { userId } = req.user;
 	try {
 		const schema = Joi.object({
-			subsId: Joi.number().min(1),
-			companyId: Joi.number().min(1).required(),
+			todoId: Joi.number().min(1).required(),
 		});
 		const { error } = schema.validate({
-			companyId,
-			subsId,
+			todoId,
 		});
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const getSubsBySubsIdQuery = `SELECT * from subscriptions WHERE subs_id=${subsId} and subs_comp_id=${companyId}`;
-		const subs = await returnPromise(getSubsBySubsIdQuery);
-		if (!subs[0]) {
-			return requestHandler.validateJoi(error, 404, 'bad Request', 'No subscription found');
+		const getTodoByTodoIdQuery = `SELECT * from todos WHERE todo_id=${todoId} and todo_user_id=${userId}`;
+		const todo = await returnPromise(getTodoByTodoIdQuery);
+		if (!todo[0]) {
+			return requestHandler.validateJoi(error, 404, 'bad Request', 'No todo found');
 		}
-		const response = makeResponseData('subscriptions', subs[0]);
+		const response = makeResponseData('todos', todo[0]);
 		return res.send(response);
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
