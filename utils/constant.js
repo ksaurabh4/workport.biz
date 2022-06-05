@@ -1,4 +1,16 @@
 exports.table = {
+	companies: {
+		companyId: 'comp_id',
+		companyName: 'comp_name',
+		companyAddress: 'comp_address',
+		companyCity: 'comp_city',
+		companyState: 'comp_state',
+		companyCountry: 'comp_country',
+		companyZip: 'comp_zip',
+		companyWebsite: 'comp_website',
+		companyPhone: 'comp_phone',
+		companyEmail: 'comp_email',
+	},
 	employees: {
 		empId: 'emp_id',
 		empEmail: 'emp_email',

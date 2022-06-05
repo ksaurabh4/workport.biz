@@ -54,7 +54,7 @@ if (cluster.isWorker) {
 	const debug = require('debug')('node-express-mysql-project:server');
 	const http = require('http');
 	const ON_DEATH = require('death');
-	const mysqlpool = require('../dbconfig');
+	const mysqlpool = require('../config/dbconfig');
 
 	/**
    * Get port from environment and store in Express.

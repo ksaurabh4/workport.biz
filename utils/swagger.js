@@ -55,10 +55,6 @@ const options = {
 				description: 'Authentication apis',
 			},
 			{
-				name: 'Email',
-				description: 'for testing and sending emails ',
-			},
-			{
 				name: 'termsAndCondition',
 				description: ' the terms and condition for the application',
 

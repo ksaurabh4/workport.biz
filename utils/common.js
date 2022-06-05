@@ -1,4 +1,4 @@
-const pool = require('../dbconfig');
+const pool = require('../config/dbconfig');
 const { table } = require('./constant');
 
 exports.returnPromise = (query, values) => new Promise((resolve, reject) => {
