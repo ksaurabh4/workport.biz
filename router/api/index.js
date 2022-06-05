@@ -4,6 +4,8 @@ const router = require('express').Router();
 
 router.use('/users', require('./usersRouter'));
 
+router.use('/companies', require('./companiesRouter'));
+
 router.use('/plans', require('./plansRouter'));
 
 router.use('/subscriptions', require('./subscriptionsRouter'));

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const CompaniesController = require('../../controllers/companies.controller');
-const { isUserCompanyAdminOrSuperAdmin } = require('../../utils/auth');
+const { isUserCompanyAdminOrSuperAdmin, isUserSuperAdmin } = require('../../utils/auth');
 const auth = require('../../utils/auth');
 /**
    * @swagger
@@ -127,7 +127,7 @@ router.put('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, Compani
  *         schema:
  *           $ref: '#/definitions/companies'
  */
-router.post('/create', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, CompaniesController.createCompany);
+router.post('/create', auth.isAuthunticated, isUserSuperAdmin, CompaniesController.createCompany);
 
 
 module.exports = router;
