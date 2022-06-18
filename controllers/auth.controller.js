@@ -87,6 +87,7 @@ exports.login = expressAsyncHandler(async (req, res) => {
 				userEmail,
 				isAdmin: isAdmin === 1,
 				userRole,
+				companyId,
 				token: generateToken({
 					userId, userEmail, isAdmin, userRole, companyId,
 				}),
