@@ -54,6 +54,21 @@ exports.addQueryBuilder = (tableName, reqBody) => {
 	return { query, dataObj };
 };
 
+exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
+	let query = 'SELECT * from employees WHERE ';
+	const params = Object.keys(reqParams);
+	params.forEach((param) => {
+		if (params[0] === param && reqParams[param] !== undefined && reqParams[param] !== null) {
+			query += `${table[tableName][param]}=${reqParams[param]}`;
+		}
+		if (params[0] !== param && reqParams[param] !== undefined && reqParams[param] !== null) {
+			query += ` AND ${table[tableName][param]}=${reqParams[param]}`;
+		}
+	});
+	query += ';';
+	return query;
+};
+
 function objectFlip(obj) {
 	const ret = {};
 	Object.keys(obj).forEach((key) => {

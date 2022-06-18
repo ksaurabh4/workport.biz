@@ -3,7 +3,9 @@ const Joi = require('joi');
 const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
-const { returnPromise, updateQueryBuilder } = require('../utils/common');
+const {
+	returnPromise, updateQueryBuilder, fetchWithMultipleParamsQueryBuilder,
+} = require('../utils/common');
 const config = require('../config/appconfig');
 
 const logger = new Logger();
@@ -139,5 +141,26 @@ exports.updateById = expressAsyncHandler(async (req, res) => {
 		return res.send({ message: 'Employee data updated successfully' });
 	} catch (err) {
 		return res.send({ message: err.message });
+	}
+});
+
+exports.fetchEmployeesList = expressAsyncHandler(async (req, res) => {
+	const { companyId } = req.query;
+	try {
+		const schema = Joi.object({
+			companyId: Joi.number().required(),
+		});
+		const { error } = schema.validate({
+			companyId,
+		});
+
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+		const query = fetchWithMultipleParamsQueryBuilder('employees', req.query);
+		const response = await returnPromise(query);
+		return res.send(response);
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
 	}
 });
