@@ -48,7 +48,6 @@ function isUserCompanyAdminOrSuperAdmin(req, res, next) {
 }
 
 function isUserSuperAdminOrCompanyAdminOrManager(req, res, next) {
-	console.log(req.user, req.query);
 	if (req.user && (req.user.userRole === 'superadmin' || (req.user.companyId === parseInt(req.query.companyId, 10) && (req.user.isAdmin || req.user.userRole === 'manager')))) {
 		next();
 	} else {
