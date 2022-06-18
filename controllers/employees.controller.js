@@ -4,7 +4,7 @@ const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const {
-	returnPromise, updateQueryBuilder, fetchListQueryBuilder, fetchWithMultipleParamsQueryBuilder,
+	returnPromise, updateQueryBuilder, fetchWithMultipleParamsQueryBuilder,
 } = require('../utils/common');
 const config = require('../config/appconfig');
 
