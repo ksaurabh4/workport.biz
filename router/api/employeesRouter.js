@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const EmployeesController = require('../../controllers/employees.controller');
-const { isUserCompanyAdmin, isUserCompanyAdminOrSuperAdmin } = require('../../utils/auth');
 const auth = require('../../utils/auth');
 /**
    * @swagger
@@ -127,7 +126,7 @@ router.put('/:id', auth.isAuthunticated, EmployeesController.updateById);
  *         schema:
  *           $ref: '#/definitions/employees'
  */
-router.post('/create', auth.isAuthunticated, isUserCompanyAdmin, EmployeesController.createEmployee);
+router.post('/create', auth.isAuthunticated, auth.isUserCompanyAdmin, EmployeesController.createEmployee);
 
 /**
  * @swagger
@@ -145,7 +144,7 @@ router.post('/create', auth.isAuthunticated, isUserCompanyAdmin, EmployeesContro
  *         schema:
  *           $ref: '#/definitions/employees'
  */
-router.get('/', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, EmployeesController.fetchEmployeesList);
+router.get('/', auth.isAuthunticated, auth.isUserSuperAdminOrCompanyAdminOrManager, EmployeesController.fetchEmployeesList);
 
 
 module.exports = router;
