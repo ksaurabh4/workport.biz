@@ -55,7 +55,16 @@ exports.addQueryBuilder = (tableName, reqBody) => {
 };
 
 exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
-	let query = 'SELECT * from employees WHERE ';
+	let query = 'SELECT ';
+	const fields = Object.keys(table[tableName]);
+	fields.forEach((field) => {
+		if (fields[fields.length - 1] === field) {
+			query += `${table[tableName][field]} as ${field}`;
+		} else {
+			query += `${table[tableName][field]} as ${field},`;
+		}
+	});
+	query += ' from employees WHERE ';
 	const params = Object.keys(reqParams);
 	params.forEach((param) => {
 		if (params[0] === param && reqParams[param] !== undefined && reqParams[param] !== null) {
@@ -66,6 +75,7 @@ exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
 		}
 	});
 	query += ';';
+	console.log(query);
 	return query;
 };
 
