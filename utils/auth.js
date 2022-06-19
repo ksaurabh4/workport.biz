@@ -17,9 +17,9 @@ function generateToken(user) {
 			userId, userEmail, isAdmin, userRole, companyId,
 		},
 		config.auth.jwt_secret,
-		{
-			expiresIn: config.auth.jwt_expiresin,
-		},
+		// {
+		// 	expiresIn: config.auth.jwt_expiresin,
+		// },
 	);
 }
 

@@ -12,7 +12,7 @@ const requestHandler = new RequestHandler(logger);
 
 exports.signUp = expressAsyncHandler(async (req, res) => {
 	const {
-		companyName, userEmail, userPswd, userRole = 'user', isAdmin = true,
+		companyName, userEmail, userPswd, userRole = 'manager', isAdmin = true,
 	} = req.body;
 	try {
 		const schema = Joi.object({
