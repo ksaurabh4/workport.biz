@@ -60,6 +60,7 @@ exports.table = {
 		announcementContent: 'announcement_content',
 		announcementSubject: 'announcement_subject',
 		announcementTo: 'announcement_to',
+		announcementCreateAt: 'announcement_created_At',
 	},
 	todos: {
 		todoId: 'todo_id',

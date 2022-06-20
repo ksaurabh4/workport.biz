@@ -149,6 +149,6 @@ router.post('/login', AuthController.login);
  *         schema:
  *           $ref: '#/definitions/users'
  */
-router.post('/logout', auth.isAuthunticated, AuthController.logOut);
+router.post('/logout', AuthController.logOut);
 
 module.exports = router;
