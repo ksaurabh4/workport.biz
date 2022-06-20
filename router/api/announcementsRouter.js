@@ -129,5 +129,23 @@ router.put('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, Announc
  */
 router.post('/create', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, AnnouncementsController.createAnnouncement);
 
+/**
+ * @swagger
+ * /announcements?companyId=:
+ *   get:
+ *     tags:
+ *       - announcements
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: return the user profile
+ *         schema:
+ *           $ref: '#/definitions/announcements'
+ */
+router.get('/', auth.isAuthunticated, AnnouncementsController.fetchAnnouncementList);
+
 
 module.exports = router;

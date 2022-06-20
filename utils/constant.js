@@ -59,7 +59,8 @@ exports.table = {
 		companyId: 'announcement_comp_id',
 		announcementContent: 'announcement_content',
 		announcementSubject: 'announcement_subject',
-		announcementFor: 'announcement_for',
+		announcementTo: 'announcement_to',
+		announcementCreateAt: 'announcement_created_At',
 	},
 	todos: {
 		todoId: 'todo_id',
