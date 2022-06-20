@@ -1,10 +1,9 @@
 const toobusy = require('node-toobusy');
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
-const fs = require('fs');
-const rfs = require('rotating-file-stream');
 const helmet = require('helmet');
 const compression = require('compression');
 const { v4: uuid } = require('uuid');
@@ -65,7 +64,7 @@ app.use((req, res, next) => {
 	}
 });
 
-
+app.use(cors());
 // Allowing access headers and requests
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');

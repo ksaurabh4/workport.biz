@@ -17,9 +17,9 @@ function generateToken(user) {
 			userId, userEmail, isAdmin, userRole, companyId,
 		},
 		config.auth.jwt_secret,
-		{
-			expiresIn: config.auth.jwt_expiresin,
-		},
+		// {
+		// 	expiresIn: config.auth.jwt_expiresin,
+		// },
 	);
 }
 
@@ -41,6 +41,14 @@ function isUserSuperAdmin(req, res, next) {
 
 function isUserCompanyAdminOrSuperAdmin(req, res, next) {
 	if (req.user && (req.user.userRole === 'superadmin' || (req.user.isAdmin && req.user.companyId === req.body.companyId))) {
+		next();
+	} else {
+		res.status(401).send({ message: 'Invalid Token' });
+	}
+}
+
+function isUserSuperAdminOrCompanyAdminOrManager(req, res, next) {
+	if (req.user && (req.user.userRole === 'superadmin' || (req.user.companyId === parseInt(req.query.companyId, 10) && (req.user.isAdmin || req.user.userRole === 'manager')))) {
 		next();
 	} else {
 		res.status(401).send({ message: 'Invalid Token' });
@@ -93,4 +101,5 @@ module.exports = {
 	isUserCompanyAdmin,
 	isUserSuperAdmin,
 	isUserCompanyAdminOrSuperAdmin,
+	isUserSuperAdminOrCompanyAdminOrManager,
 };
