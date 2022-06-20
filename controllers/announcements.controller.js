@@ -129,7 +129,7 @@ exports.fetchAnnouncementList = expressAsyncHandler(async (req, res) => {
 		}
 		let query = '';
 		if (userRole === 'superadmin') {
-			query = 'SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt FROM announcements';
+			query = 'SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt FROM announcements Order By announcement_created_at Desc';
 		} else if (isAdmin) {
 			query = `SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt FROM announcements WHERE announcement_comp_id=${companyId} OR announcement_to='admins' Order By announcement_created_at Desc`;
 		} else if (userRole === 'manager') {
