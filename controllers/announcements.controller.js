@@ -144,3 +144,30 @@ exports.fetchAnnouncementList = expressAsyncHandler(async (req, res) => {
 		return res.status(500).send({ message: err.message });
 	}
 });
+
+exports.deleteAnnouncementById = expressAsyncHandler(async (req, res) => {
+	const { companyId } = req.user;
+	const { id } = req.params;
+	try {
+		const schema = Joi.object({
+			companyId: Joi.number().required(),
+			id: Joi.number().required(),
+		});
+		const { error } = schema.validate({
+			companyId,
+			id,
+		});
+
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+		const query = `DELETE FROM announcements WHERE announcement_comp_id=${companyId} AND announcement_id=${id}`;
+		const response = await returnPromise(query);
+		if (response.affectedRows !== 1) {
+			return res.status(404).send({ message: 'No record found with given id' });
+		}
+		return res.send({ message: 'Announcement deleted successfully' });
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
+	}
+});
