@@ -133,7 +133,7 @@ exports.fetchAnnouncementList = expressAsyncHandler(async (req, res) => {
 		} else if (isAdmin) {
 			query = `SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt from announcements WHERE announcement_comp_id=${companyId} OR announcement_to='admins' Order By announcement_created_at Desc`;
 		} else if (userRole === 'manager') {
-			query = `SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt from announcements WHERE announcement_comp_id=${companyId} AND announcement_to='managers' Order By announcement_created_at Desc`;
+			query = `SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt from announcements WHERE announcement_comp_id=${companyId} AND (announcement_to='managers' OR announcement_to='all') Order By announcement_created_at Desc`;
 		} else {
 			query = `SELECT announcement_id as announcementId, announcement_content as  announcementContent, announcement_subject as announcementSubject, announcement_is_active as announcementIsActive, announcement_to as announcementTo, announcement_comp_id as announcementCompId, announcement_created_at as announcementCreatedAt from announcements WHERE announcement_comp_id=${companyId} AND announcement_to='all' Order By announcement_created_at Desc`;
 		}
@@ -164,7 +164,7 @@ exports.deleteAnnouncementById = expressAsyncHandler(async (req, res) => {
 		const query = `DELETE FROM announcements WHERE announcement_comp_id=${companyId} AND announcement_id=${id}`;
 		const response = await returnPromise(query);
 		if (response.affectedRows !== 1) {
-			return res.status(404).send({ message: 'No record found with given id' });
+			return res.status(404).send({ message: 'Either You not have access to remove this or no record found with given id' });
 		}
 		return res.send({ message: 'Announcement deleted successfully' });
 	} catch (err) {
