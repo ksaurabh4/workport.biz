@@ -11,39 +11,31 @@ const requestHandler = new RequestHandler(logger);
 
 exports.createAnnouncement = expressAsyncHandler(async (req, res) => {
 	const {
-		subsStartDate,
-		subsEndDate,
-		announcementIsActive,
+		announcementTo,
+		announcementSubject,
 		companyId,
-		planId,
+		announcementContent,
 	} = req.body;
 	try {
 		const schema = Joi.object({
-			subsStartDate: Joi.date().iso().required(),
-			subsEndDate: Joi.date().iso().required(),
-			announcementIsActive: Joi.boolean().required(),
+			announcementTo: Joi.string().required(),
+			announcementSubject: Joi.string().required(),
 			companyId: Joi.number().min(1).required(),
-			planId: Joi.number().min(1).required(),
+			announcementContent: Joi.string().required(),
 		});
 		const { error } = schema.validate({
-			subsStartDate,
-			subsEndDate,
-			announcementIsActive,
+			announcementTo,
+			announcementSubject,
+			announcementContent,
 			companyId,
-			planId,
 		});
 
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const fetchSubsByCompanyId = `SELECT * FROM subscriptions where subs_comp_id='${companyId}';`;
-		const existingSubs = await returnPromise(fetchSubsByCompanyId);
-		if (existingSubs[0] && existingSubs[0].subs_id) {
-			return requestHandler.throwError(400, 'bad request', 'Announcementwith this clientId already existed')();
-		}
-		const { query, dataObj } = addQueryBuilder('subscriptions', req.body);
+		const { query, dataObj } = addQueryBuilder('announcements', req.body);
 		await returnPromise(query, dataObj);
-		return res.send({ message: 'Announcementadded successfully' });
+		return res.send({ message: 'Announcement added successfully' });
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
 	}
