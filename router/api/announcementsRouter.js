@@ -66,7 +66,7 @@ router.get('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, Announc
  *         schema:
  *           $ref: '#/definitions/announcements'
  */
-// router.delete('/:id([0-9])', AnnouncementsController.deleteById);
+router.delete('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, AnnouncementsController.deleteAnnouncementById);
 
 /**
  * @swagger
