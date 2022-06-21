@@ -66,7 +66,8 @@ exports.table = {
 		todoId: 'todo_id',
 		todoContent: 'todo_content',
 		todoDueDateTime: 'todo_due_date_time',
-		todoStatus: 'todo_status',
+		todoIsCompleted: 'todo_is_completed',
 		userId: 'todo_user_id',
+		companyId: 'todo_comp_id',
 	},
 };

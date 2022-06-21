@@ -129,5 +129,23 @@ router.put('/:id', auth.isAuthunticated, TodosController.updateTodoById);
  */
 router.post('/create', auth.isAuthunticated, TodosController.createTodo);
 
+/**
+ * @swagger
+ * /todos:
+ *   get:
+ *     tags:
+ *       - todos
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: return the user profile
+ *         schema:
+ *           $ref: '#/definitions/todos'
+ */
+router.get('/', auth.isAuthunticated, TodosController.fetchTodoList);
+
 
 module.exports = router;
