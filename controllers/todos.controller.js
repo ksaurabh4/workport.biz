@@ -10,28 +10,34 @@ const logger = new Logger();
 const requestHandler = new RequestHandler(logger);
 
 exports.createTodo = expressAsyncHandler(async (req, res) => {
-	const { userId } = req.user;
+	const { companyId, userId } = req.user;
 	const {
 		todoContent,
 		todoDueDateTime,
-		todoStatus = 'pending',
+		todoIsCompleted = false,
 	} = req.body;
 	try {
 		const schema = Joi.object({
 			todoContent: Joi.string().required(),
 			todoDueDateTime: Joi.date().iso().greater('now').required(),
-			todoStatus: Joi.string().required().valid('pending', 'completed'),
+			todoIsCompleted: Joi.boolean().required(),
 		});
 		const { error } = schema.validate({
 			todoContent,
 			todoDueDateTime,
-			todoStatus,
+			todoIsCompleted,
 		});
 
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const { query, dataObj } = addQueryBuilder('todos', { ...req.body, userId });
+		const { query, dataObj } = addQueryBuilder('todos', {
+			todoContent,
+			todoDueDateTime,
+			todoIsCompleted,
+			userId,
+			companyId,
+		});
 		await returnPromise(query, dataObj);
 		return res.send({ message: 'Todo added successfully' });
 	} catch (err) {
@@ -97,6 +103,17 @@ exports.getTodoById = expressAsyncHandler(async (req, res) => {
 			return requestHandler.validateJoi(error, 404, 'bad Request', 'No todo found');
 		}
 		const response = makeResponseData('todos', todo[0]);
+		return res.send(response);
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
+	}
+});
+
+exports.fetchTodoList = expressAsyncHandler(async (req, res) => {
+	const { companyId, userId } = req.user;
+	try {
+		const query = `SELECT todo_id AS todoId, todo_content as todoContent, todo_due_date_time as todoDueDateTime, todo_is_completed as todoIsCompleted, todo_user_id as userId, todo_comp_id as companyId FROM todos WHERE todo_comp_id=${companyId} AND todo_user_id=${userId} order by todo_due_date_time DESC;`;
+		const response = await returnPromise(query);
 		return res.send(response);
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
