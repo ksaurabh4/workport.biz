@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const expressAsyncHandler = require('express-async-handler');
+const moment = require('moment');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const {
@@ -33,7 +34,7 @@ exports.createTodo = expressAsyncHandler(async (req, res) => {
 		}
 		const { query, dataObj } = addQueryBuilder('todos', {
 			todoContent,
-			todoDueDateTime,
+			todoDueDateTime: moment(todoDueDateTime).format('YYYY-MM-DD HH:mm:ss'),
 			todoIsCompleted,
 			userId,
 			companyId,
