@@ -40,14 +40,14 @@ exports.signUp = expressAsyncHandler(async (req, res) => {
 		const addCompanyQuery = `INSERT INTO companies(comp_name) VALUES('${companyName}');`;
 		const company = await returnPromise(addCompanyQuery);
 		result.companyId = company.insertId;
-		const addUserQuery = `INSERT INTO users (user_email,user_pswd,user_comp_id,user_role,user_is_admin) 
-      VALUES ('${userEmail}','${bcrypt.hashSync(userPswd, 8)}',${company.insertId},'${userRole}',${isAdmin});`;
-		const user = await returnPromise(addUserQuery);
-		result.userId = user.insertId;
-		const addEmployeeQuery = `INSERT INTO employees (emp_email,emp_comp_id,emp_is_manager,emp_user_id) 
-		VALUE ('${userEmail}',${company.insertId},${true},${user.insertId})`;
+		const addEmployeeQuery = `INSERT INTO employees (emp_email,emp_comp_id,emp_is_manager) 
+		VALUE ('${userEmail}',${company.insertId},${true})`;
 		const employee = await returnPromise(addEmployeeQuery);
 		result.empId = employee.insertId;
+		const addUserQuery = `INSERT INTO users (user_email,user_pswd,user_comp_id,user_emp_id,user_role,user_is_admin) 
+      VALUES ('${userEmail}','${bcrypt.hashSync(userPswd, 8)}',${company.insertId},${employee.insertId},'${userRole}',${isAdmin});`;
+		const user = await returnPromise(addUserQuery);
+		result.userId = user.insertId;
 		const token = generateToken(result);
 		return res.send({ ...result, token });
 	} catch (err) {
@@ -80,7 +80,7 @@ exports.login = expressAsyncHandler(async (req, res) => {
 		if (bcrypt.compareSync(pswd, user[0].user_pswd)) {
 			const {
 				user_id: userId, user_email: userEmail, user_is_admin: isAdmin, user_role: userRole,
-				user_comp_id: companyId,
+				user_comp_id: companyId, user_emp_id: empId,
 			} = user[0];
 			return res.send({
 				userId,
@@ -88,6 +88,7 @@ exports.login = expressAsyncHandler(async (req, res) => {
 				isAdmin: isAdmin === 1,
 				userRole,
 				companyId,
+				empId,
 				token: generateToken({
 					userId, userEmail, isAdmin, userRole, companyId,
 				}),
