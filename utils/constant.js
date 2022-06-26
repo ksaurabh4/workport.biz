@@ -70,4 +70,16 @@ exports.table = {
 		userId: 'todo_user_id',
 		companyId: 'todo_comp_id',
 	},
+	goals: {
+		goalsId: 'goals_id',
+		goalsType: 'goals_type',
+		goalsParameter: 'goals_parameter',
+		goalsAchieved: 'goals_achieved',
+		goalsScore: 'goals_score',
+		goalsReviewStartDate: 'goals_review_start_date',
+		goalsReviewEndDate: 'goals_review_end_date',
+		employeeId: 'goals_emp_id',
+		companyId: 'goals_comp_id',
+		goalsWeekNum: 'goals_week_num',
+	},
 };

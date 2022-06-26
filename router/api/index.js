@@ -16,6 +16,8 @@ router.use('/todos', require('./todosRouter'));
 
 router.use('/employees', require('./employeesRouter'));
 
+router.use('/goals', require('./goalsRouter'));
+
 router.use('/', require('./authRouter'));
 
 module.exports = router;
