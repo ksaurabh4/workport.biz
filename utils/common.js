@@ -64,7 +64,7 @@ exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
 			query += `${table[tableName][field]} as ${field},`;
 		}
 	});
-	query += ' from employees WHERE ';
+	query += ` from ${tableName} WHERE `;
 	const params = Object.keys(reqParams);
 	params.forEach((param) => {
 		if (params[0] === param && reqParams[param] !== undefined && reqParams[param] !== null) {
