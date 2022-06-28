@@ -52,7 +52,7 @@ exports.createEmployee = expressAsyncHandler(async (req, res) => {
 
 		if (employee.insertId) {
 			const addUserQuery = `INSERT INTO users (user_email,user_pswd,user_comp_id,user_emp_id,user_role,user_is_admin) 
-      VALUES ('${empEmail}','${bcrypt.hashSync(config.auth.user_default_password, config.auth.saltRounds)}',${companyId},${employee.insertId}'${isManager ? 'manager' : 'user'}',${isAdmin});`;
+      VALUES ('${empEmail}','${bcrypt.hashSync(config.auth.user_default_password, config.auth.saltRounds)}',${companyId},${employee.insertId},'${isManager ? 'manager' : 'user'}',${isAdmin});`;
 			await returnPromise(addUserQuery);
 		}
 		return res.send({ message: 'Employee create successfully' });

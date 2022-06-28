@@ -10,11 +10,11 @@ const requestHandler = new RequestHandler(logger);
 
 function generateToken(user) {
 	const {
-		userId, userEmail, isAdmin, userRole, companyId,
+		userId, userEmail, isAdmin, userRole, companyId, empId,
 	} = user;
 	return jwt.sign(
 		{
-			userId, userEmail, isAdmin, userRole, companyId,
+			userId, userEmail, isAdmin, userRole, companyId, empId,
 		},
 		config.auth.jwt_secret,
 		// {
@@ -56,7 +56,7 @@ function isUserSuperAdminOrCompanyAdminOrManager(req, res, next) {
 }
 
 function isUserManagerOrHimself(req, res, next) {
-	if (req.user && (req.user.companyId === req.body.companyId && (req.user.userRole === 'manager' || req.user.employeeId === req.body.employeeId))) {
+	if (req.user && (req.user.companyId === req.body.companyId && (req.user.userRole === 'manager' || req.user.empId === req.body.empId))) {
 		next();
 	} else {
 		res.status(401).send({ message: 'Invalid Token' });
