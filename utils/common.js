@@ -65,7 +65,16 @@ exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
 		}
 	});
 	query += ` from ${tableName} WHERE `;
+
+	if (reqParams.startDate && reqParams.endDate) {
+		query += `goal_review_start_date >= '${reqParams.startDate}' AND goal_review_start_date <='${reqParams.endDate}' AND `;
+	}
+
+	delete reqParams.startDate;
+	delete reqParams.endDate;
+
 	const params = Object.keys(reqParams);
+
 	params.forEach((param) => {
 		if (params[0] === param && reqParams[param] !== undefined && reqParams[param] !== null) {
 			query += `${table[tableName][param]}=${reqParams[param]}`;
@@ -75,7 +84,6 @@ exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
 		}
 	});
 	query += ';';
-	console.log(query);
 	return query;
 };
 
