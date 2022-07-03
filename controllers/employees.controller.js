@@ -4,7 +4,7 @@ const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const {
-	returnPromise, updateQueryBuilder, fetchWithMultipleParamsQueryBuilder,
+	returnPromise, updateQueryBuilder, fetchWithMultipleParamsQueryBuilder, fetchEmployeeOptionList, fetchEmployeeListWithMultipleParamsQueryBuilder,
 } = require('../utils/common');
 const config = require('../config/appconfig');
 
@@ -158,7 +158,7 @@ exports.fetchEmployeesList = expressAsyncHandler(async (req, res) => {
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const query = fetchWithMultipleParamsQueryBuilder('employees', req.query);
+		const query = fetchEmployeeListWithMultipleParamsQueryBuilder('employees', req.query);
 		const response = await returnPromise(query);
 		return res.send(response);
 	} catch (err) {

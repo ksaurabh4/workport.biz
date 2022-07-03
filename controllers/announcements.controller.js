@@ -4,7 +4,7 @@ const moment = require('moment');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const {
-	returnPromise, updateQueryBuilder, addQueryBuilder, 
+	returnPromise, updateQueryBuilder, addQueryBuilder,
 	makeResponseData,
 } = require('../utils/common');
 
