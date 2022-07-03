@@ -12,35 +12,42 @@ const requestHandler = new RequestHandler(logger);
 
 exports.createGoal = expressAsyncHandler(async (req, res) => {
 	const {
-		companyId, employeeId, goalsType, goalsParameter, goalsAchieved, goalsScore, goalsWeekNum,
-		goalsReviewStartDate, goalsReviewEndDate,
+		companyId, empId, goalType, goalTerm, goalParameter, goalAchieved, goalScore, goalWeekNum,
+		goalReviewStartDate, goalReviewEndDate,
 	} = req.body;
 	try {
 		const schema = Joi.object({
 			companyId: Joi.number().required(),
-			employeeId: Joi.number().required(),
-			goalsType: Joi.string().required(),
-			goalsParameter: Joi.string().required(),
-			goalsAchieved: Joi.number().required(),
-			goalsScore: Joi.number().required(),
-			goalsWeekNum: Joi.number().required(),
-			goalsReviewStartDate: Joi.date().required(),
-			goalsReviewEndDate: Joi.date().required(),
+			empId: Joi.number().required(),
+			goalType: Joi.string().required(),
+			goalTerm: Joi.string().required(),
+			goalParameter: Joi.string().required(),
+			goalAchieved: Joi.number().required(),
+			goalScore: Joi.number().required(),
+			goalWeekNum: Joi.number().required(),
+			goalReviewStartDate: Joi.date().required(),
+			goalReviewEndDate: Joi.date().required(),
 		});
 		const { error } = schema.validate({
 			companyId,
-			employeeId,
-			goalsType,
-			goalsParameter,
-			goalsAchieved,
-			goalsScore,
-			goalsWeekNum,
-			goalsReviewStartDate,
-			goalsReviewEndDate,
+			empId,
+			goalType,
+			goalTerm,
+			goalParameter,
+			goalAchieved,
+			goalScore,
+			goalWeekNum,
+			goalReviewStartDate,
+			goalReviewEndDate,
 		});
 
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+		const queryToCheckExistingGoal = `SELECT * FROM goals WHERE goal_emp_id=${empId} AND goal_type='${goalType}' AND goal_review_start_date='${goalReviewStartDate}' AND goal_review_end_date='${goalReviewEndDate}'`;
+		const existingGoal = await returnPromise(queryToCheckExistingGoal);
+		if (existingGoal[0] && existingGoal[0].goal_id) {
+			return requestHandler.throwError(400, 'bad request', 'Goal for this time period already created.')();
 		}
 		const { query, dataObj } = addQueryBuilder('goals', req.body);
 		await returnPromise(query, dataObj);
