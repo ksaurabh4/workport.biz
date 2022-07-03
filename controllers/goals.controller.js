@@ -44,6 +44,11 @@ exports.createGoal = expressAsyncHandler(async (req, res) => {
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
+		const queryToCheckExistingGoal = `SELECT * FROM goals WHERE goal_emp_id=${empId} AND goal_type='${goalType}' AND goal_review_start_date='${goalReviewStartDate}' AND goal_review_end_date='${goalReviewEndDate}'`;
+		const existingGoal = await returnPromise(queryToCheckExistingGoal);
+		if (existingGoal[0] && existingGoal[0].goal_id) {
+			return requestHandler.throwError(400, 'bad request', 'Goal for this time period already created.')();
+		}
 		const { query, dataObj } = addQueryBuilder('goals', req.body);
 		await returnPromise(query, dataObj);
 		return res.send({ message: 'Goal Added successfully' });
