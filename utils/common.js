@@ -1,3 +1,4 @@
+const e = require('express');
 const pool = require('../config/dbconfig');
 const { table } = require('./constant');
 
@@ -86,6 +87,50 @@ exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
 	query += ';';
 	return query;
 };
+
+exports.fetchEmployeeListWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
+	let query = `SELECT e1.emp_id 'empId',e1.emp_email 'empEmail',e1.emp_name 'empName',
+        e1.emp_adress 'empAddress',e1.emp_city 'empCity',e1.emp_state empState,e1.emp_country
+        'empCountry', e1.emp_zip 'empZip', e1.emp_dept 'empDept', e1.emp_sub_dept 'empSubDept',
+                e1.emp_designation 'empDesignation', e1.emp_is_manager 'isManager', e1.emp_manager_id 
+'empManagerId', e1.emp_comp_id 'companyId', e1.emp_phone 'empPhone', e1.emp_code 'empCode', e2.emp_name 'empManagerName'
+                FROM employees e1 
+                LEFT JOIN employees e2
+                ON (e1.emp_manager_id=e2.emp_id) Where `;
+
+	const params = Object.keys(reqParams);
+	params.forEach((param) => {
+		if (params[0] === param && reqParams[param] !== undefined && reqParams[param] !== null) {
+			query += `e1.${table[tableName][param]}=${reqParams[param]}`;
+		}
+		if (params[0] !== param && reqParams[param] !== undefined && reqParams[param] !== null) {
+			query += ` AND e1.${table[tableName][param]}=${reqParams[param]}`;
+		}
+	});
+	query += ';';
+	console.log(query);
+	return query;
+};
+
+exports.fetchEmployeeOptionList = (tableName, reqParams) => {
+	let query = 'SELECT emp_id as empId, emp_name as empName';
+
+	query += ` from ${tableName} WHERE `;
+
+	const params = Object.keys(reqParams);
+
+	params.forEach((param) => {
+		if (params[0] === param && reqParams[param] !== undefined && reqParams[param] !== null) {
+			query += `${table[tableName][param]}=${reqParams[param]}`;
+		}
+		if (params[0] !== param && reqParams[param] !== undefined && reqParams[param] !== null) {
+			query += ` AND ${table[tableName][param]}=${reqParams[param]}`;
+		}
+	});
+	query += ';';
+	return query;
+};
+
 
 function objectFlip(obj) {
 	const ret = {};
