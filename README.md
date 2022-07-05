@@ -105,21 +105,6 @@ var logger = winston.createLogger({
     })
   ]
 });
-```
-
-# Rotating File Stream
-
-To provide an automated rotation of Express/Connect logs or anything else that writes to a log on a regular basis that needs to be rotated based on date.
-
-```js
-var rfs    = require('rotating-file-stream');
-var accessLogStream = rfs('file.log', {
-    size:     '10M', // rotate every 10 MegaBytes written
-    interval: '1d', // rotate daily
-    compress: 'gzip' // compress rotated files
-    path: 'log' // folder path for log files
-});
-```
 
 # MySQL Database Connectivity (with connection pool)
 
@@ -140,39 +125,4 @@ var pool  = mysql.createPool({
   acquireTimeout: 10000, // The milliseconds before a timeout occurs during the connection acquisition. (Default: 10000)
   debug : false // Prints protocol details to stdout. (Default: false)
 });
-```
-
-# Server Status Monitor
-
-Express Status Monitor is simple, self-hosted module based on Socket.io and Chart.js to report realtime server metrics for Express-based ode servers.
-
-```js
-app.use(require('express-status-monitor')({
-  title: 'Server Status', // title for status screen
-  path: '/status', // path for server status invokation
-  spans: [{
-    interval: 1, // every second
-    retention: 60 // keep 60 datapoints in memory
-  }, {
-    interval: 5, // every 5 seconds
-    retention: 60
-  }],
-  chartVisibility: {
-    cpu: true, // enable CPU Usage
-    mem: true, // enable Memory Usage
-    load: true, // enable One Minute Load Avg
-    eventLoop: true, // enable EventLoop Precess Usage
-    heap: true, // enable Heap Memory Usage
-    responseTime: true, // enable Response Time
-    rps: true, // enable Requests per Second
-    statusCodes: true // enable Status Codes
-  },
-  healthChecks: [{
-    protocol: 'http', // protocol
-    host: 'localhost' // server host name
-    path: '/users', // endpoint to check status
-    port: '3000' // server port
-  }], // health check will be considered successful if the endpoint returns a 200 status code
-  ignoreStartsWith: '/admin' // ignore path starts with
-}));
 ```
