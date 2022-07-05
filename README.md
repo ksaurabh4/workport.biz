@@ -1,4 +1,4 @@
-# Node Express MySQL Project (workport.biz)!
+# workport.biz!
 
 The quickest way to get start with Node.Js, Express & MySQL, just clone the project:
 
