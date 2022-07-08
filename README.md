@@ -105,7 +105,7 @@ var logger = winston.createLogger({
     })
   ]
 });
-
+```
 # MySQL Database Connectivity (with connection pool)
 
 This is a node.js driver for mysql. Also implemented the connection pool, it is a cache of database connections maintained so that the connections can be reused when future requests to the database are required. Connection pools are used to enhance the performance of executing commands on a database.
