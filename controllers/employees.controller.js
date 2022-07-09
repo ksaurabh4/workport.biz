@@ -4,7 +4,7 @@ const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const {
-	returnPromise, updateQueryBuilder, fetchEmployeeListWithMultipleParamsQueryBuilder,
+	returnPromise, updateQueryBuilder, fetchEmployeeListWithMultipleParamsQueryBuilder, makeResponseData,
 } = require('../utils/common');
 const config = require('../config/appconfig');
 
@@ -74,29 +74,20 @@ exports.getEmployeeById = expressAsyncHandler(async (req, res) => {
 		if (error) {
 			requestHandler.validateJoi(error, 400, 'bad Request', 'invalid Employee Id');
 		}
-		const getEmployeeByIdAndCompanyIdQuery = `SELECT * from employees WHERE emp_id=${empId} and emp_comp_id=${companyId};`;
+		const getEmployeeByIdAndCompanyIdQuery = `SELECT e1.emp_id 'empId', e1.emp_email 'empEmail', e1.emp_name 'empName',
+			e1.emp_adress 'empAddress', e1.emp_city 'empCity', e1.emp_state empState, e1.emp_country
+		'empCountry', e1.emp_zip 'empZip', e1.emp_dept 'empDept', e1.emp_sub_dept 'empSubDept',
+			e1.emp_designation 'empDesignation', e1.emp_is_manager 'isManager', e1.emp_manager_id
+		'empManagerId', e1.emp_comp_id 'companyId', e1.emp_phone 'empPhone', e1.emp_code 'empCode', e2.emp_name 'empManagerName', e2.emp_phone 'empManagerPhone', e2.emp_email 'empManagerEmail'
+                FROM employees e1 
+                LEFT JOIN employees e2
+		ON(e1.emp_manager_id = e2.emp_id) WHERE e1.emp_id=${empId} and e1.emp_comp_id=${companyId};`;
 		const employee = await returnPromise(getEmployeeByIdAndCompanyIdQuery);
-		if (employee[0] && employee[0].emp_id) {
-			return res.send({
-				empCode: employee[0].emp_code,
-				empName: employee[0].emp_name,
-				empPhone: employee[0].emp_phone,
-				empEmail: employee[0].emp_email,
-				empAddress: employee[0].emp_address,
-				empCity: employee[0].emp_city,
-				empState: employee[0].emp_state,
-				empCountry: employee[0].emp_country,
-				empZip: employee[0].emp_zip,
-				empManagerId: employee[0].emp_manager_id,
-				empDept: employee[0].emp_email,
-				empSubDept: employee[0].emp_email,
-				empDesignation: employee[0].emp_email,
-				isManager: employee[0].emp_is_manager === 1,
-				empId: employee[0].emp_id,
-				companyId: employee[0].emp_comp_id,
-			});
+		if (!employee[0]) {
+			return requestHandler.validateJoi(error, 404, 'bad Request', 'No employee found');
 		}
-		return res.status(404).send({ message: 'no employee found with provided Id' });
+		// const response = makeResponseData('employees', employee[0]);
+		return res.send(employee[0]);
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
 	}
