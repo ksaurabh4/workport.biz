@@ -109,12 +109,15 @@ CREATE TABLE `subscriptions` (
 CREATE TABLE `todos` (
   `todo_id` int NOT NULL AUTO_INCREMENT,
   `todo_content` varchar(255) NOT NULL,
-  `todo_status` varchar(255) NOT NULL,
+  `todo_is_completed` tinyint NOT NULL,
   `todo_due_date_time` datetime NOT NULL,
   `todo_user_id` int NOT NULL,
+  `todo_comp_id` int NOT NULL,
   PRIMARY KEY (`todo_id`),
   KEY `todo_user_id` (`todo_user_id`),
-  CONSTRAINT `todos_ibfk_1` FOREIGN KEY (`todo_user_id`) REFERENCES `users` (`user_id`)
+  KEY `todo_comp_id` (`todo_comp_id`),
+  CONSTRAINT `todos_ibfk_1` FOREIGN KEY (`todo_user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `todos_ibfk_2` FOREIGN KEY (`todo_comp_id`) REFERENCES `companies` (`comp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 

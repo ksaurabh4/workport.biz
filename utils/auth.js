@@ -62,7 +62,13 @@ function isUserManagerOrHimself(req, res, next) {
 		res.status(401).send({ message: 'Invalid Token' });
 	}
 }
-
+function isSuperAdminOrCompanyAdminOrHimself(req, res, next) {
+	if (req.user && (req.user.userRole === 'superadmin' || req.user.isAdmin || req.user.userId === parseInt(req.params.id, 10))) {
+		next();
+	} else {
+		res.status(401).send({ message: 'Invalid Token' });
+	}
+}
 function getTokenFromHeader(req) {
 	if ((req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token')
 		|| (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')) {
@@ -111,4 +117,5 @@ module.exports = {
 	isUserCompanyAdminOrSuperAdmin,
 	isUserSuperAdminOrCompanyAdminOrManager,
 	isUserManagerOrHimself,
+	isSuperAdminOrCompanyAdminOrHimself
 };

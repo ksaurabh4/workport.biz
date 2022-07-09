@@ -115,6 +115,30 @@ router.post('/login', AuthController.login);
   *         description: a new jwt token with a new expiry date is issued
   */
 // router.post('/refreshToken', auth.isAuthunticated, AuthController.refreshToken);
+/**
+ * @swagger
+ * /users/{userId}:
+ *   update:
+ *     tags:
+ *       - users
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      - name: UserId
+ *        description: numeric id of the user to get
+ *        in: path
+ *        required: true
+ *        type: integer
+ *        minimum: 1
+ *     responses:
+ *       200:
+ *         description: update user with id
+ *         schema:
+ *           $ref: '#/definitions/users'
+ */
+router.put('/users/:id', auth.isAuthunticated, auth.isSuperAdminOrCompanyAdminOrHimself, AuthController.updatePassword);
 
 /**
  * @swagger
