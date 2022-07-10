@@ -149,7 +149,7 @@ exports.fetchEmployeesList = expressAsyncHandler(async (req, res) => {
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const query = fetchEmployeeListWithMultipleParamsQueryBuilder('employees', req.query);
+		const query = fetchEmployeeListWithMultipleParamsQueryBuilder('employees', req.query, req.user.empId);
 		const response = await returnPromise(query);
 		return res.send(response);
 	} catch (err) {

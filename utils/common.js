@@ -88,7 +88,7 @@ exports.fetchWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
 	return query;
 };
 
-exports.fetchEmployeeListWithMultipleParamsQueryBuilder = (tableName, reqParams) => {
+exports.fetchEmployeeListWithMultipleParamsQueryBuilder = (tableName, reqParams, empId) => {
 	let query = `SELECT e1.emp_id 'empId',e1.emp_email 'empEmail',e1.emp_name 'empName',
         e1.emp_adress 'empAddress',e1.emp_city 'empCity',e1.emp_state empState,e1.emp_country
         'empCountry', e1.emp_zip 'empZip', e1.emp_dept 'empDept', e1.emp_sub_dept 'empSubDept',
@@ -107,8 +107,7 @@ exports.fetchEmployeeListWithMultipleParamsQueryBuilder = (tableName, reqParams)
 			query += ` AND e1.${table[tableName][param]}=${reqParams[param]}`;
 		}
 	});
-	query += ';';
-	console.log(query);
+	query += ` OR e1.emp_id=${empId};`;
 	return query;
 };
 
