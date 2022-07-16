@@ -102,11 +102,12 @@ exports.login = expressAsyncHandler(async (req, res) => {
 
 exports.updatePassword = expressAsyncHandler(async (req, res) => {
 	const { userPswd } = req.body;
-	const userId = req.params.id;
+	const { userId, empId } = req.query;
 
 	try {
 		const schema = Joi.object({
-			userId: Joi.number().required(),
+			userId: Joi.number(),
+			empId: Joi.number(),
 			userPswd: Joi.string().min(6).required(),
 		});
 		const { error } = schema.validate({
@@ -118,12 +119,12 @@ exports.updatePassword = expressAsyncHandler(async (req, res) => {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
 
-		const fetchUserByEmailQuery = `SELECT * FROM users where user_id='${userId}';`;
+		const fetchUserByEmailQuery = `SELECT * FROM users where user_id='${userId}' OR user_emp_id='${empId}';`;
 		const user = await returnPromise(fetchUserByEmailQuery);
 		if (!user[0]) {
 			return requestHandler.throwError(400, 'bad request', 'user not found')();
 		}
-		const { query, values } = updateQueryBuilder('users', 'user_id', userId, { userPswd: bcrypt.hashSync(req.body.userPswd, 8) });
+		const { query, values } = updateQueryBuilder('users', 'user_id', user[0].user_id, { userPswd: bcrypt.hashSync(req.body.userPswd, 8) });
 		await returnPromise(query, values);
 		return res.send({ message: 'Password Reset successfully' });
 	} catch (error) {
