@@ -138,7 +138,7 @@ router.post('/login', AuthController.login);
  *         schema:
  *           $ref: '#/definitions/users'
  */
-router.put('/users/:id', auth.isAuthunticated, auth.isSuperAdminOrCompanyAdminOrHimself, AuthController.updatePassword);
+router.put('/users', auth.isAuthunticated, auth.isSuperAdminOrCompanyAdminOrHimself, AuthController.updatePassword);
 
 /**
  * @swagger

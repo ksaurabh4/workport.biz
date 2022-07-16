@@ -63,7 +63,7 @@ function isUserManagerOrHimself(req, res, next) {
 	}
 }
 function isSuperAdminOrCompanyAdminOrHimself(req, res, next) {
-	if (req.user && (req.user.userRole === 'superadmin' || req.user.isAdmin || req.user.userId === parseInt(req.params.id, 10))) {
+	if (req.user && (req.user.userRole === 'superadmin' || req.user.isAdmin || req.user.userId === parseInt(req.query.userId,10) || req.user.empId === parseInt(req.query.empId, 10))) {
 		next();
 	} else {
 		res.status(401).send({ message: 'Invalid Token' });
@@ -117,5 +117,5 @@ module.exports = {
 	isUserCompanyAdminOrSuperAdmin,
 	isUserSuperAdminOrCompanyAdminOrManager,
 	isUserManagerOrHimself,
-	isSuperAdminOrCompanyAdminOrHimself
+	isSuperAdminOrCompanyAdminOrHimself,
 };
