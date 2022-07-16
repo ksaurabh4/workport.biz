@@ -15,6 +15,23 @@ const auth = require('../../utils/auth');
    *         type: string
    */
 
+/**
+ * @swagger
+ * /goals/get:
+ *   get:
+ *     tags:
+ *       - goals
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: return the user profile
+ *         schema:
+ *           $ref: '#/definitions/goals'
+ */
+router.get('/summary', auth.isAuthunticated, GoalsController.fetchGoalsSummary);
 
 /**
  * @swagger

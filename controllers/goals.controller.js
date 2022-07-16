@@ -96,13 +96,13 @@ exports.updateById = expressAsyncHandler(async (req, res) => {
 			return requestHandler.validateJoi(error, 400, 'bad Request', 'invalid goal Id');
 		}
 
-		const getGoalByIdAndEmpIdQuery = `SELECT * from goals WHERE goals_id=${goalId} and goals_comp_id=${companyId};`;
+		const getGoalByIdAndEmpIdQuery = `SELECT * from goals WHERE goal_id=${goalId} and goal_comp_id=${companyId};`;
 		const goal = await returnPromise(getGoalByIdAndEmpIdQuery);
 		if (!goal[0]) {
 			return requestHandler.validateJoi(error, 404, 'bad Request', 'No goal found with this id');
 		}
 		if (Object.keys(req.body).length > 0) {
-			const { query, values } = updateQueryBuilder('goals', 'goals_id', goalId, req.body);
+			const { query, values } = updateQueryBuilder('goals', 'goal_id', goalId, req.body);
 			await returnPromise(query, values);
 		}
 		return res.send({ message: 'Goal data updated successfully' });
@@ -131,5 +131,28 @@ exports.fetchGoalsList = expressAsyncHandler(async (req, res) => {
 		return res.send(response);
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
+	}
+});
+
+exports.fetchGoalsSummary = expressAsyncHandler(async (req, res) => {
+	const { companyId, empId } = req.query;
+	try {
+		const schema = Joi.object({
+			companyId: Joi.number().required(),
+			empId: Joi.number().required(),
+		});
+		const { error } = schema.validate({
+			companyId,
+			empId,
+		});
+
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+		const query = `SELECT goal_type as goalType, AVG(goal_score) as scorePercentage FROM goals WHERE goal_emp_id=${empId} AND goal_review_start_date >= '${req.query.startDate}' AND goal_review_start_date <='${req.query.endDate}' GROUP BY goal_type;`;
+		const response = await returnPromise(query);
+		return res.send(response);
+	} catch (error) {
+		return res.status(500).send({ message: error.message });
 	}
 });
