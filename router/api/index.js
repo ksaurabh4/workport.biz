@@ -8,6 +8,8 @@ router.use('/companies', require('./companiesRouter'));
 
 router.use('/plans', require('./plansRouter'));
 
+router.use('/reports', require('./reportsRouter'));
+
 router.use('/subscriptions', require('./subscriptionsRouter'));
 
 router.use('/announcements', require('./announcementsRouter'));
