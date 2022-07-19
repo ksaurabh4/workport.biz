@@ -129,5 +129,23 @@ router.put('/:id', auth.isAuthunticated, isUserCompanyAdminOrSuperAdmin, Compani
  */
 router.post('/create', auth.isAuthunticated, isUserSuperAdmin, CompaniesController.createCompany);
 
+/**
+ * @swagger
+ * /employees:
+ *   get:
+ *     tags:
+ *       - employees
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: return the user profile
+ *         schema:
+ *           $ref: '#/definitions/employees'
+ */
+router.get('/', auth.isAuthunticated, auth.isUserSuperAdmin, CompaniesController.fetchCompaniesList);
+
 
 module.exports = router;

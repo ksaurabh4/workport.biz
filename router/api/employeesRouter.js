@@ -130,7 +130,7 @@ router.post('/create', auth.isAuthunticated, auth.isUserCompanyAdmin, EmployeesC
 
 /**
  * @swagger
- * /employees/create:
+ * /employees:
  *   get:
  *     tags:
  *       - employees
