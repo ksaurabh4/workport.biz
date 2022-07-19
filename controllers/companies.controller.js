@@ -70,53 +70,53 @@ exports.createCompany = expressAsyncHandler(async (req, res) => {
 });
 
 exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
-	const companyId = req.params.id;
+	const compId = req.params.id;
 	const {
-		companyName,
-		companyAddress,
-		companyCity,
-		companyState,
-		companyCountry,
-		companyZip,
-		companyWebsite,
-		companyPhone,
-		companyEmail,
+		compName,
+		compAddress,
+		compCity,
+		compState,
+		compCountry,
+		compZip,
+		compWebsite,
+		compPhone,
+		compEmail,
 	} = req.body;
 	try {
 		const schema = Joi.object({
-			companyName: Joi.string(),
-			companyAddress: Joi.string(),
-			companyCity: Joi.string(),
-			companyCountry: Joi.string(),
-			companyState: Joi.string(),
-			companyZip: Joi.string(),
-			companyWebsite: Joi.string(),
-			companyPhone: Joi.number(),
-			companyEmail: Joi.string().email(),
-			companyId: Joi.number().required(),
+			compName: Joi.string(),
+			compAddress: Joi.string(),
+			compCity: Joi.string(),
+			compCountry: Joi.string(),
+			compState: Joi.string(),
+			compZip: Joi.string(),
+			compWebsite: Joi.string(),
+			compPhone: Joi.number(),
+			compEmail: Joi.string().email(),
+			compId: Joi.number().required(),
 		});
 		const { error } = schema.validate({
-			companyName,
-			companyAddress,
-			companyCity,
-			companyState,
-			companyCountry,
-			companyZip,
-			companyWebsite,
-			companyPhone,
-			companyEmail,
-			companyId,
+			compName,
+			compAddress,
+			compCity,
+			compState,
+			compCountry,
+			compZip,
+			compWebsite,
+			compPhone,
+			compEmail,
+			compId,
 		});
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const getcompanyBycompanyIdQuery = `SELECT * from companies WHERE comp_id=${companyId}`;
+		const getcompanyBycompanyIdQuery = `SELECT * from companies WHERE comp_id=${compId}`;
 		const company = await returnPromise(getcompanyBycompanyIdQuery);
 		if (!company[0]) {
 			return requestHandler.validateJoi(error, 404, 'bad Request', 'No company found');
 		}
 		if (Object.keys(req.body).length > 0) {
-			const { query, values } = updateQueryBuilder('companies', 'comp_id', companyId, req.body);
+			const { query, values } = updateQueryBuilder('companies', 'comp_id', compId, req.body);
 			await returnPromise(query, values);
 		}
 		return res.send({ message: 'Company data updated successfully' });
@@ -126,23 +126,41 @@ exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
 });
 
 exports.getCompanyById = expressAsyncHandler(async (req, res) => {
-	const companyId = req.params.id;
+	const compId = req.params.id;
 	try {
 		const schema = Joi.object({
-			companyId: Joi.number().min(1),
+			compId: Joi.number().min(1),
 		});
 		const { error } = schema.validate({
-			companyId,
+			compId,
 		});
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const getCompanyByCompanyIdQuery = `SELECT * from companies WHERE comp_id=${companyId}`;
+		const getCompanyByCompanyIdQuery = `SELECT * from companies WHERE comp_id=${compId}`;
 		const company = await returnPromise(getCompanyByCompanyIdQuery);
 		if (!company[0]) {
 			return requestHandler.validateJoi(error, 404, 'bad Request', 'No company found');
 		}
 		const response = makeResponseData('companies', company[0]);
+		return res.send(response);
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
+	}
+});
+
+exports.fetchCompaniesList = expressAsyncHandler(async (req, res) => {
+	try {
+		const query = `SELECT comp.comp_id 'compId',comp.comp_email 'compEmail',comp.comp_name 'compName',
+        comp.comp_address 'compAddress',comp.comp_city 'compCity',comp.comp_state compState,comp.comp_country
+        'compCountry', comp.comp_zip 'compZip', comp.comp_phone 'compPhone', subs.subs_is_active 'subsIsActive',
+				plan.plan_name as compPlanName
+                FROM companies comp 
+                JOIN subscriptions subs
+                ON (comp.comp_id=subs.subs_comp_id)
+                JOIN plans plan
+                ON (subs.subs_plan_id=plan.plan_id);`;
+		const response = await returnPromise(query);
 		return res.send(response);
 	} catch (err) {
 		return res.status(500).send({ message: err.message });
