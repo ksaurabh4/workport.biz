@@ -116,7 +116,7 @@ exports.updateById = expressAsyncHandler(async (req, res) => {
 			const formatIsManager = () => {
 				if (req.body.isManager === undefined) {
 					return null;
-				} if (req.body.isManager === 1) {
+				} if (req.body.isManager === 1 || req.body.isManager === true) {
 					return 'manager';
 				}
 				return 'user';
