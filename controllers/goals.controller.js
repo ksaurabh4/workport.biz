@@ -127,7 +127,7 @@ exports.deleteById = expressAsyncHandler(async (req, res) => {
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
 		}
-		const query = `DELETE FROM announcements WHERE announcement_comp_id=${companyId} AND goal_id=${id}`;
+		const query = `DELETE FROM goals WHERE goal_comp_id=${companyId} AND goal_id=${id}`;
 		const response = await returnPromise(query);
 		if (response.affectedRows !== 1) {
 			return res.status(404).send({ message: 'Either You not have access to remove this or no record found with given id' });

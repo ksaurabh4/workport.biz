@@ -112,7 +112,7 @@ router.put('/:id', auth.isAuthunticated, GoalsController.updateById);
 /**
  * @swagger
  * /goals/{goalId}:
- *   update:
+ *   delete:
  *     tags:
  *       - goals
  *     security:
