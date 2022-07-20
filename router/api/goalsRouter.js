@@ -111,6 +111,31 @@ router.put('/:id', auth.isAuthunticated, GoalsController.updateById);
 
 /**
  * @swagger
+ * /goals/{goalId}:
+ *   update:
+ *     tags:
+ *       - goals
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      - name: GoalId
+ *        description: numeric id of the user to get
+ *        in: path
+ *        required: true
+ *        type: integer
+ *        minimum: 1
+ *     responses:
+ *       200:
+ *         description: update user with id
+ *         schema:
+ *           $ref: '#/definitions/goals'
+ */
+router.delete('/:id', auth.isAuthunticated, GoalsController.deleteById);
+
+/**
+ * @swagger
  * /goals/profile:
  *   get:
  *     tags:
