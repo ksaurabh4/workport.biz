@@ -25,7 +25,7 @@ exports.createEmployee = expressAsyncHandler(async (req, res) => {
 			empCity: Joi.string().required(),
 			empState: Joi.string().required(),
 			empCountry: Joi.string().required(),
-			empManagerId: Joi.number().required(),
+			empManagerId: Joi.number(),
 		});
 		const { error } = schema.validate({
 			companyId,
