@@ -107,7 +107,34 @@ exports.updateById = expressAsyncHandler(async (req, res) => {
 		}
 		return res.send({ message: 'Goal data updated successfully' });
 	} catch (err) {
-		return res.send({ message: err.message });
+		return res.status(500).send({ message: err.message });
+	}
+});
+
+exports.deleteById = expressAsyncHandler(async (req, res) => {
+	const { id } = req.params;
+	const { companyId } = req.user;
+	try {
+		const schema = Joi.object({
+			companyId: Joi.number().required(),
+			id: Joi.number().required(),
+		});
+		const { error } = schema.validate({
+			companyId,
+			id,
+		});
+
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+		const query = `DELETE FROM goals WHERE goal_comp_id=${companyId} AND goal_id=${id}`;
+		const response = await returnPromise(query);
+		if (response.affectedRows !== 1) {
+			return res.status(404).send({ message: 'Either You not have access to remove this or no record found with given id' });
+		}
+		return res.send({ message: 'Goal deleted successfully' });
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
 	}
 });
 
