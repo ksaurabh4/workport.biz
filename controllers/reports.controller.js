@@ -68,7 +68,8 @@ exports.fetchReport = expressAsyncHandler(async (req, res) => {
 
 		const empWiseGoalsQuery = `SELECT employees.emp_name as empName, AVG(goal_score) as score FROM goals 
 INNER JOIN employees ON goals.goal_emp_id=employees.emp_id
-WHERE goals.goal_comp_id=${req.user.companyId} GROUP BY goals.goal_emp_id;`;
+WHERE goals.goal_comp_id=${req.user.companyId} AND goal_review_start_date >= '${req.query.startDate}' AND goal_review_start_date <='${req.query.endDate}'
+GROUP BY goals.goal_emp_id;`;
 		const empWiseScore = await returnPromise(empWiseGoalsQuery);
 		return res.send({
 			empWiseScore,
