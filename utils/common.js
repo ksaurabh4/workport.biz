@@ -1,4 +1,4 @@
-const e = require('express');
+// const express = require('express');
 const pool = require('../config/dbconfig');
 const { table } = require('./constant');
 

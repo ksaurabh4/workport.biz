@@ -129,5 +129,22 @@ router.put('/:id', auth.isAuthunticated, isUserSuperAdmin, PlansController.updat
  */
 router.post('/create', auth.isAuthunticated, isUserSuperAdmin, PlansController.createPlan);
 
+/**
+ * @swagger
+ * /plans:
+ *   get:
+ *     tags:
+ *       - plans
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: return the plans list
+ *         schema:
+ *           $ref: '#/definitions/plans'
+ */
+router.get('/', auth.isAuthunticated, auth.isUserSuperAdmin, PlansController.fetchPlansList);
 
 module.exports = router;

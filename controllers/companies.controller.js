@@ -81,6 +81,8 @@ exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
 		compWebsite,
 		compPhone,
 		compEmail,
+		compPlanId,
+		subsIsActive,
 	} = req.body;
 	try {
 		const schema = Joi.object({
@@ -94,6 +96,7 @@ exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
 			compPhone: Joi.number(),
 			compEmail: Joi.string().email(),
 			compId: Joi.number().required(),
+			compPlanId: Joi.number(),
 		});
 		const { error } = schema.validate({
 			compName,
@@ -106,6 +109,7 @@ exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
 			compPhone,
 			compEmail,
 			compId,
+			compPlanId,
 		});
 		if (error) {
 			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
@@ -115,6 +119,16 @@ exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
 		if (!company[0]) {
 			return requestHandler.validateJoi(error, 404, 'bad Request', 'No company found');
 		}
+		let updateSubsQuery = `UPDATE subscriptions SET subs_plan_id=${compPlanId}`;
+
+		if (subsIsActive !== 'Yes') {
+			updateSubsQuery += `, subs_is_active=${subsIsActive}`;
+		}
+		updateSubsQuery += ` WHERE subs_comp_id = ${compId};`;
+		await returnPromise(updateSubsQuery);
+		delete req.body.subsIsActive;
+		delete req.body.compPlanId;
+
 		if (Object.keys(req.body).length > 0) {
 			const { query, values } = updateQueryBuilder('companies', 'comp_id', compId, req.body);
 			await returnPromise(query, values);
@@ -151,10 +165,10 @@ exports.getCompanyById = expressAsyncHandler(async (req, res) => {
 
 exports.fetchCompaniesList = expressAsyncHandler(async (req, res) => {
 	try {
-		const query = `SELECT comp.comp_id 'compId',comp.comp_email 'compEmail',comp.comp_name 'compName',
+		const query = `SELECT comp.comp_id 'compId',comp.comp_website 'compWebsite',comp.comp_email 'compEmail',comp.comp_name 'compName',
         comp.comp_address 'compAddress',comp.comp_city 'compCity',comp.comp_state compState,comp.comp_country
         'compCountry', comp.comp_zip 'compZip', comp.comp_phone 'compPhone', subs.subs_is_active 'subsIsActive',
-				plan.plan_name as compPlanName
+				plan.plan_id as compPlanId, plan.plan_name as compPlanName
                 FROM companies comp 
                 JOIN subscriptions subs
                 ON (comp.comp_id=subs.subs_comp_id)

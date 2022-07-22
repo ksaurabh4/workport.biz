@@ -83,3 +83,13 @@ exports.updatePlanById = expressAsyncHandler(async (req, res) => {
 		return res.send({ message: err.message });
 	}
 });
+
+exports.fetchPlansList = expressAsyncHandler(async (req, res) => {
+	try {
+		const query = 'SELECT plan_id as planId, plan_name as planName, plan_duration as planDuration, plan_duration_unit as planDurationUnit, plan_price as planPrice, plan_max_employees as planMaxEmployees FROM plans;';
+		const response = await returnPromise(query);
+		return res.send(response);
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
+	}
+});
