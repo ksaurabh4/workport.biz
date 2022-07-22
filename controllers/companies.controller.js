@@ -170,9 +170,9 @@ exports.fetchCompaniesList = expressAsyncHandler(async (req, res) => {
         'compCountry', comp.comp_zip 'compZip', comp.comp_phone 'compPhone', subs.subs_is_active 'subsIsActive',
 				plan.plan_id as compPlanId, plan.plan_name as compPlanName
                 FROM companies comp 
-                JOIN subscriptions subs
+                LEFT JOIN subscriptions subs
                 ON (comp.comp_id=subs.subs_comp_id)
-                JOIN plans plan
+                LEFT JOIN plans plan
                 ON (subs.subs_plan_id=plan.plan_id);`;
 		const response = await returnPromise(query);
 		return res.send(response);

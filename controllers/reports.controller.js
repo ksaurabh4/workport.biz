@@ -9,18 +9,51 @@ const requestHandler = new RequestHandler(logger);
 
 
 exports.fetchReport = expressAsyncHandler(async (req, res) => {
-	// const { reportType } = req.query;
+	const { reportType } = req.query;
 	try {
-		// const schema = Joi.object({
-		// 	reportType: Joi.string().min(1).required(),
-		// });
-		// const { error } = schema.validate({
-		// 	reportType,
-		// });
-		// if (error) {
-		// 	return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
-		// }
+		const schema = Joi.object({
+			reportType: Joi.string().min(1).required(),
+		});
+		const { error } = schema.validate({
+			reportType,
+		});
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
 
+		if (reportType === 'superadmin_dashboard') {
+			const totalCompaniesCountQuery = 'SELECT COUNT(*) as compCount FROM companies';
+			const compCount = await returnPromise(totalCompaniesCountQuery);
+			const totalActiveCompQuery = 'SELECT COUNT(*) as activeCompCount FROM subscriptions WHERE subs_is_active = 1';
+			const activeCompCount = await returnPromise(totalActiveCompQuery);
+			const totalPaidCompaniesQuery = 'SELECT COUNT(*) as paidCompCount FROM subscriptions WHERE subs_plan_id != 1';
+			const paidCompCount = await returnPromise(totalPaidCompaniesQuery);
+			const totalUsersCountQuery = 'SELECT COUNT(*) as userCount FROM users';
+			const userCount = await returnPromise(totalUsersCountQuery);
+			const companyUserCountDetailQuery = `SELECT comp.comp_id as compId, comp.comp_name as compName, count(user.user_id) as userCount
+			FROM companies comp
+			JOIN users user
+			ON (comp.comp_id=user.user_comp_id) 
+			GROUP BY user.user_comp_id;`;
+			const compUserCountdata = await returnPromise(companyUserCountDetailQuery);
+			const companyWiseDetailQuery = `SELECT comp.comp_added_at as compAddedDate, subs.subs_is_active as subsIsActive, plan.plan_name as compPlanName
+			FROM companies comp
+			          LEFT JOIN subscriptions subs
+			          ON (comp.comp_id=subs.subs_comp_id)
+			          LEFT JOIN plans plan
+			          ON (subs.subs_plan_id=plan.plan_id);`;
+			const compWisedata = await returnPromise(companyWiseDetailQuery);
+			const compDashboardData = compWisedata.map((comp, i) => ({ ...compUserCountdata[i], ...comp }));
+			return res.send({
+				compDashboardData,
+				counter: {
+					compCount: compCount[0].compCount,
+					activeCompCount: activeCompCount[0].activeCompCount,
+					paidCompCount: paidCompCount[0].paidCompCount,
+					userCount: userCount[0].userCount,
+				},
+			});
+		}
 		const fetchEmpQuery = `SELECT * FROM employees WHERE emp_id=${req.user.empId}`;
 		const loggedEmp = await returnPromise(fetchEmpQuery);
 
