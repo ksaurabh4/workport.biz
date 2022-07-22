@@ -131,19 +131,19 @@ router.post('/create', auth.isAuthunticated, isUserSuperAdmin, CompaniesControll
 
 /**
  * @swagger
- * /employees:
+ * /companies:
  *   get:
  *     tags:
- *       - employees
+ *       - companies
  *     security:
  *       - Bearer: []
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: return the user profile
+ *         description: return the companies list
  *         schema:
- *           $ref: '#/definitions/employees'
+ *           $ref: '#/definitions/companies'
  */
 router.get('/', auth.isAuthunticated, auth.isUserSuperAdmin, CompaniesController.fetchCompaniesList);
 
