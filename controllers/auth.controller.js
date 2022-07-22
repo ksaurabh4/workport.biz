@@ -6,6 +6,7 @@ const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const { returnPromise, updateQueryBuilder } = require('../utils/common');
 const { generateToken } = require('../utils/auth');
+const moment = require('moment');
 
 const logger = new Logger();
 const requestHandler = new RequestHandler(logger);
@@ -39,6 +40,8 @@ exports.signUp = expressAsyncHandler(async (req, res) => {
 		};
 		const addCompanyQuery = `INSERT INTO companies(comp_name) VALUES('${companyName}');`;
 		const company = await returnPromise(addCompanyQuery);
+		const addSubscriptionQuery = `INSERT INTO subscriptions(subs_start_date,subs_end_date,subs_comp_id) VALUES('${moment().format('YYYY-MM-DD 00:00:00')}','${moment().add(7, 'd').format('YYYY-MM-DD 23:59:59')}',${company.insertId});`;
+		await returnPromise(addSubscriptionQuery);
 		result.companyId = company.insertId;
 		const addEmployeeQuery = `INSERT INTO employees (emp_email,emp_comp_id,emp_is_manager) 
 		VALUE ('${userEmail}',${company.insertId},${true})`;
