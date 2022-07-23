@@ -16,9 +16,7 @@ CREATE TABLE `companies` (
   `comp_added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comp_email` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`comp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- workport_db.users definition
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- workport_db.users definition
 
@@ -38,7 +36,7 @@ CREATE TABLE `users` (
   KEY `user_emp_id` (`user_emp_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_comp_id`) REFERENCES `companies` (`comp_id`),
   CONSTRAINT `users_ibfk_2` FOREIGN KEY (`user_emp_id`) REFERENCES `employees` (`emp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- workport_db.employees definition
 
@@ -65,7 +63,7 @@ CREATE TABLE `employees` (
   KEY `emp_manager_id` (`emp_manager_id`),
   CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`emp_comp_id`) REFERENCES `companies` (`comp_id`),
   CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`emp_manager_id`) REFERENCES `employees` (`emp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- workport_db.announcements definition
 
@@ -81,7 +79,7 @@ CREATE TABLE `announcements` (
   PRIMARY KEY (`announcement_id`),
   KEY `announcement_comp_id` (`announcement_comp_id`),
   CONSTRAINT `announcements_ibfk_1` FOREIGN KEY (`announcement_comp_id`) REFERENCES `companies` (`comp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- workport_db.plans definition
@@ -94,7 +92,7 @@ CREATE TABLE `plans` (
   `plan_price` double NOT NULL DEFAULT '0',
   `plan_max_employees` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`plan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- workport_db.subscriptions definition
 
@@ -110,7 +108,7 @@ CREATE TABLE `subscriptions` (
   KEY `subs_plan_id` (`subs_plan_id`),
   CONSTRAINT `subscriptions_ibfk_1` FOREIGN KEY (`subs_comp_id`) REFERENCES `companies` (`comp_id`),
   CONSTRAINT `subscriptions_ibfk_2` FOREIGN KEY (`subs_plan_id`) REFERENCES `plans` (`plan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- workport_db.todos definition
 
@@ -127,7 +125,7 @@ CREATE TABLE `todos` (
   KEY `todo_comp_id` (`todo_comp_id`),
   CONSTRAINT `todos_ibfk_1` FOREIGN KEY (`todo_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `todos_ibfk_2` FOREIGN KEY (`todo_comp_id`) REFERENCES `companies` (`comp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- workport_db.goals definition
@@ -150,4 +148,4 @@ CREATE TABLE `goals` (
   KEY `goals_comp_id` (`goal_comp_id`),
   CONSTRAINT `goal_ibfk_1` FOREIGN KEY (`goal_emp_id`) REFERENCES `employees` (`emp_id`),
   CONSTRAINT `goal_ibfk_2` FOREIGN KEY (`goal_comp_id`) REFERENCES `companies` (`comp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
