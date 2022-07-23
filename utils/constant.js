@@ -32,6 +32,7 @@ exports.table = {
 	users: {
 		userId: 'user_id',
 		isAdmin: 'user_is_admin',
+		isActive: 'user_is_active',
 		userRole: 'user_role',
 		userEmail: 'user_email',
 		userPswd: 'user_pswd',
