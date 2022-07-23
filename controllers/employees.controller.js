@@ -4,7 +4,10 @@ const expressAsyncHandler = require('express-async-handler');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const {
-	returnPromise, updateQueryBuilder, fetchEmployeeListWithMultipleParamsQueryBuilder,
+	returnPromise,
+	updateQueryBuilder,
+	fetchEmployeeListWithMultipleParamsQueryBuilder,
+	addQueryBuilder,
 } = require('../utils/common');
 const config = require('../config/appconfig');
 
@@ -13,8 +16,8 @@ const requestHandler = new RequestHandler(logger);
 
 exports.createEmployee = expressAsyncHandler(async (req, res) => {
 	const {
-		companyId, empCode, empName, empPhone, empEmail, empAddress, empCity, empState,
-		empCountry, empZip, empManagerId, isManager = false, empDept, empSubDept, empDesignation,
+		companyId, empName, empEmail, empAddress, empCity, empState,
+		empCountry, empManagerId, isManager = false,
 		isAdmin = false,
 	} = req.body;
 	try {
@@ -24,6 +27,7 @@ exports.createEmployee = expressAsyncHandler(async (req, res) => {
 			empName: Joi.string().required(),
 			empCity: Joi.string().required(),
 			empState: Joi.string().required(),
+			empAddress: Joi.string(),
 			empCountry: Joi.string().required(),
 			empManagerId: Joi.number(),
 		});
@@ -31,6 +35,7 @@ exports.createEmployee = expressAsyncHandler(async (req, res) => {
 			companyId,
 			empEmail,
 			empName,
+			empAddress,
 			empCity,
 			empState,
 			empCountry,
@@ -45,14 +50,18 @@ exports.createEmployee = expressAsyncHandler(async (req, res) => {
 		if (existingUser[0] && existingUser[0].user_id) {
 			return requestHandler.throwError(400, 'bad request', 'employee with this email already existed')();
 		}
-		const addEmployeeQuery = `INSERT INTO employees
-	(emp_email, emp_code, emp_name, emp_phone, emp_adress, emp_city, emp_state, emp_country, emp_zip, emp_dept, emp_sub_dept, emp_designation, emp_is_manager, emp_manager_id, emp_comp_id)
-	VALUES('${empEmail}','${empCode}' ,'${empName}','${empPhone}', '${empAddress}', '${empCity}', '${empState}', '${empCountry}', '${empZip}', '${empDept}', '${empSubDept}', '${empDesignation}', ${isManager}, ${empManagerId}, ${companyId});`;
-		const employee = await returnPromise(addEmployeeQuery);
+		// 	const addEmployeeQuery = `INSERT INTO employees
+		// (emp_email, emp_code, emp_name, emp_phone, emp_adress, emp_city, emp_state, emp_country, emp_zip, emp_dept, emp_sub_dept, emp_designation, emp_is_manager, emp_manager_id, emp_comp_id)
+		// VALUES('${empEmail}','${empCode}' ,'${empName}','${empPhone}', '${empAddress}', '${empCity}', '${empState}', '${empCountry}', '${empZip}', '${empDept}', '${empSubDept}', '${empDesignation}', ${isManager}, ${empManagerId}, ${companyId});`;
+
+		const { query, dataObj } = addQueryBuilder('employees', req.body);
+
+		// const employee = await returnPromise(addEmployeeQuery);
+		const employee = await returnPromise(query, dataObj);
 
 		if (employee.insertId) {
-			const addUserQuery = `INSERT INTO users (user_email,user_pswd,user_comp_id,user_emp_id,user_role,user_is_admin) 
-      VALUES ('${empEmail}','${bcrypt.hashSync(config.auth.user_default_password, config.auth.saltRounds)}',${companyId},${employee.insertId},'${isManager ? 'manager' : 'user'}',${isAdmin});`;
+			const addUserQuery = `INSERT INTO users (user_email,user_pswd,user_comp_id,user_emp_id,user_role) 
+      VALUES ('${empEmail}','${bcrypt.hashSync(config.auth.user_default_password, config.auth.saltRounds)}',${companyId},${employee.insertId},'${isManager ? 'manager' : 'user'}');`;
 			await returnPromise(addUserQuery);
 		}
 		return res.send({ message: 'Employee create successfully' });

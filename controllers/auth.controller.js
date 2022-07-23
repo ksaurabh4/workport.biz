@@ -2,11 +2,11 @@
 const bcrypt = require('bcryptjs');
 const Joi = require('joi');
 const expressAsyncHandler = require('express-async-handler');
+const moment = require('moment');
 const RequestHandler = require('../utils/RequestHandler');
 const Logger = require('../utils/logger');
 const { returnPromise, updateQueryBuilder } = require('../utils/common');
 const { generateToken } = require('../utils/auth');
-const moment = require('moment');
 
 const logger = new Logger();
 const requestHandler = new RequestHandler(logger);
@@ -79,6 +79,10 @@ exports.login = expressAsyncHandler(async (req, res) => {
 		if (!user[0]) {
 			return requestHandler.throwError(400, 'bad request', 'your email is not registered with us')();
 		}
+		if (user[0].user_is_active !== 1) {
+			return requestHandler.throwError(400, 'bad request', 'your account is not active')();
+		}
+
 
 		if (bcrypt.compareSync(pswd, user[0].user_pswd)) {
 			const {

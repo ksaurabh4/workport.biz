@@ -75,9 +75,9 @@ GROUP BY goals.goal_emp_id;`;
 			empWiseScore,
 			counter: {
 				empCount: empCount[0].empCount,
-				pendingTaskCount: pendingTaskCount[0].pendingTaskCount,
 				sameTeamEmpCount: sameTeamEmpCount[0].sameTeamEmpCount,
 				reporteeCount: reporteeCount[0].reporteeCount,
+				pendingTaskCount: pendingTaskCount[0].pendingTaskCount,
 			},
 		});
 	} catch (err) {
