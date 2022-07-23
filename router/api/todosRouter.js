@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const TodosController = require('../../controllers/todos.controller');
-const { isUserHimself } = require('../../utils/auth');
 const auth = require('../../utils/auth');
 /**
    * @swagger
