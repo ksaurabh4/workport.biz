@@ -85,6 +85,33 @@ exports.updateTodoById = expressAsyncHandler(async (req, res) => {
 	}
 });
 
+exports.deleteTodoById = expressAsyncHandler(async (req, res) => {
+	const { id } = req.params;
+	const { userId } = req.user;
+	try {
+		const schema = Joi.object({
+			userId: Joi.number().required(),
+			id: Joi.number().required(),
+		});
+		const { error } = schema.validate({
+			userId,
+			id,
+		});
+
+		if (error) {
+			return requestHandler.validateJoi(error, 400, 'bad Request', error ? error.details[0].message : '');
+		}
+		const query = `DELETE FROM todos WHERE todo_user_id=${userId} AND todo_id=${id}`;
+		const response = await returnPromise(query);
+		if (response.affectedRows !== 1) {
+			return res.status(404).send({ message: 'Either You not have access to remove this or no record found with given id' });
+		}
+		return res.send({ message: 'Todo deleted successfully' });
+	} catch (err) {
+		return res.status(500).send({ message: err.message });
+	}
+});
+
 exports.getTodoById = expressAsyncHandler(async (req, res) => {
 	const todoId = req.params.id;
 	const { userId } = req.user;

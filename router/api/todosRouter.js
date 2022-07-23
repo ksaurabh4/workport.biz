@@ -87,11 +87,36 @@ router.get('/:id', auth.isAuthunticated, TodosController.getTodoById);
  *        minimum: 1
  *     responses:
  *       200:
- *         description: update user with id
+ *         description: update todo with id
  *         schema:
  *           $ref: '#/definitions/todos'
  */
 router.put('/:id', auth.isAuthunticated, TodosController.updateTodoById);
+
+/**
+ * @swagger
+ * /todos/{todoId}:
+ *   update:
+ *     tags:
+ *       - todos
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      - name: SubsId
+ *        description: numeric id of the user to get
+ *        in: path
+ *        required: true
+ *        type: integer
+ *        minimum: 1
+ *     responses:
+ *       200:
+ *         description: delete todo with id
+ *         schema:
+ *           $ref: '#/definitions/todos'
+ */
+router.delete('/:id', auth.isAuthunticated, TodosController.deleteTodoById);
 
 /**
  * @swagger

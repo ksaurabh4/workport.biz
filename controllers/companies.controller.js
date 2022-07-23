@@ -121,8 +121,10 @@ exports.updateCompanyById = expressAsyncHandler(async (req, res) => {
 		}
 		let updateSubsQuery = `UPDATE subscriptions SET subs_plan_id=${compPlanId}`;
 
-		if (subsIsActive !== 'Yes') {
+		if (subsIsActive !== 'Yes' && subsIsActive !== 'No') {
 			updateSubsQuery += `, subs_is_active=${subsIsActive}`;
+			const userStatusUpdate = `UPDATE users SET user_is_active=${subsIsActive} WHERE user_comp_id = ${compId};`;
+			await returnPromise(userStatusUpdate);
 		}
 		updateSubsQuery += ` WHERE subs_comp_id = ${compId};`;
 		await returnPromise(updateSubsQuery);
